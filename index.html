@@ -1,131 +1,440 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Smokey’s Space — Hub</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <title>Smokey’s Space — Command Center</title>
+  <meta name="description" content="Smokey’s Space: central hub for Wizz projects, links, notes, and experiments." />
+
+  <!-- Optional font; safe if offline too -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
   <style>
-    :root{--bg:#0b0f1a;--panel:#0f1629;--text:#e6ecff;--muted:#9fb0d2;--card:#141c33;--accent:#7cf0ff;--cta:#ff6b9c}
-    *{box-sizing:border-box} html,body{margin:0;padding:0}
-    body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text)}
-    .wrap{max-width:1100px;margin:0 auto;padding:24px}
-    header{position:sticky;top:0;z-index:9;background:linear-gradient(180deg,rgba(11,15,26,.95),rgba(11,15,26,.6));backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
-    .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
-    .brand{font-weight:800;letter-spacing:.3px}
-    .brand b{background:linear-gradient(90deg,var(--accent),var(--cta));-webkit-background-clip:text;background-clip:text;color:transparent}
-    nav a{color:var(--text);opacity:.9;text-decoration:none;margin:0 10px;font-weight:600}
-    nav a:hover{opacity:1;text-decoration:underline}
-    .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:22px;align-items:center;padding:34px 0}
-    @media (max-width:900px){.hero{grid-template-columns:1fr}}
-    h1{font-size:clamp(32px,5.6vw,60px);line-height:1.05;margin:6px 0 10px}
-    .muted{color:var(--muted)}
-    .cta{display:inline-block;margin-top:12px;padding:12px 16px;border-radius:12px;background:linear-gradient(90deg,var(--cta),var(--accent));color:#001; font-weight:800;text-decoration:none}
-    .panel{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px}
-    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-    @media (max-width:900px){.grid{grid-template-columns:1fr 1fr}}
-    @media (max-width:640px){.grid{grid-template-columns:1fr}}
-    .card{background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px}
-    .card h3{margin:0 0 6px}
-    .card a{display:inline-block;margin-top:10px;color:#001;background:var(--accent);padding:8px 12px;border-radius:10px;font-weight:700;text-decoration:none}
-    footer{margin:30px 0;color:var(--muted);font-size:14px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+    :root{
+      --bg: #0b0f1a;
+      --panel: #101626;
+      --panel-2: #0e1422;
+      --text: #e7eefc;
+      --muted: #8ea3c7;
+      --brand: #7dd3fc;
+      --accent: #a78bfa;
+      --ok: #34d399;
+      --warn: #fbbf24;
+      --danger:#fb7185;
+      --border: 1px solid rgba(255,255,255,0.08);
+      --shadow: 0 10px 30px rgba(0,0,0,.45);
+      --radius: 14px;
+      --radius-sm: 10px;
+      color-scheme: dark;
+    }
+    .light{
+      --bg: #f7f9ff;
+      --panel: #ffffff;
+      --panel-2:#f3f6ff;
+      --text: #172036;
+      --muted:#51607b;
+      --brand:#0284c7;
+      --accent:#6d28d9;
+      --border: 1px solid rgba(10,20,40,0.08);
+      color-scheme: light;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, #1c2b4a55, transparent 60%),
+        radial-gradient(1000px 600px at 120% 10%, #3b1d6a55, transparent 60%),
+        var(--bg);
+      background-attachment: fixed;
+      letter-spacing:.2px;
+    }
+
+    .app{
+      display:grid;
+      grid-template-columns: 280px 1fr;
+      min-height:100dvh;
+    }
+    /* Sidebar */
+    aside{
+      border-right: var(--border);
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      padding:20px 18px;
+      position:sticky; top:0; height:100dvh;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      margin-bottom:22px;
+    }
+    .brand .logo{
+      width:42px;height:42px;border-radius:12px;
+      background: radial-gradient(120% 120% at 20% 10%, #3b82f655, transparent 40%), #0ea5e9;
+      box-shadow: inset 0 0 20px #ffffff22, 0 8px 18px #0ea5e933;
+    }
+    .brand h1{
+      margin:0; font-size:18px; font-weight:800; line-height:1.2;
+    }
+    .tag{font-size:12px; color:var(--muted)}
+    nav{margin-top:8px}
+    .nav{
+      display:grid; gap:8px; margin:12px 0 20px;
+    }
+    .nav a{
+      text-decoration:none; color:var(--text);
+      padding:10px 12px; border-radius:12px; border:var(--border);
+      display:flex; align-items:center; gap:10px;
+      background: linear-gradient(180deg, #ffffff05, #00000000);
+    }
+    .nav a:hover{background:#ffffff0a}
+    .chip{
+      font-size:11px; padding:3px 8px; border-radius:999px; border:var(--border);
+      color:var(--muted);
+    }
+    .quick{
+      margin-top:12px; display:grid; gap:8px;
+    }
+    .quick a{
+      font-size:14px; color:var(--brand); text-decoration:none;
+    }
+    .quick a:hover{text-decoration:underline}
+
+    /* Main */
+    main{padding:22px 22px 40px}
+    .topbar{
+      display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap;
+    }
+    .search{
+      flex:1; min-width:240px;
+      display:flex; gap:10px; align-items:center;
+      background: var(--panel);
+      border:var(--border); border-radius:12px; padding:10px 12px;
+      box-shadow: var(--shadow);
+    }
+    .search input{
+      flex:1; background:transparent; border:0; outline:none; color:var(--text); font-size:14px;
+    }
+    .actions{display:flex; gap:10px}
+    .btn{
+      border:var(--border); background:linear-gradient(180deg,#ffffff0a,#0000);
+      color:var(--text); padding:10px 12px; border-radius:12px; font-weight:600; cursor:pointer;
+    }
+    .btn.primary{background:linear-gradient(180deg,#38bdf855,#38bdf81a); border-color:#38bdf833}
+    .btn.ghost{background:transparent}
+
+    .grid{
+      display:grid; gap:16px; margin-top:18px;
+      grid-template-columns: repeat(12, 1fr);
+    }
+    .card{
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      border:var(--border); border-radius:var(--radius);
+      box-shadow: var(--shadow);
+      padding:16px;
+    }
+    .card h3{margin:0 0 10px; font-size:16px}
+    .muted{color:var(--muted); font-size:13px}
+
+    /* Tiles */
+    .kpis{grid-column: span 12; display:grid; gap:12px; grid-template-columns: repeat(4, 1fr);}
+    .kpi{
+      border-radius:14px; padding:14px 16px; border:var(--border);
+      background: linear-gradient(180deg, #ffffff08, #0000);
+    }
+    .kpi .label{font-size:12px; color:var(--muted)}
+    .kpi .value{font-size:22px; font-weight:800; margin-top:6px}
+    .kpi.ok .value{color:var(--ok)}
+    .kpi.warn .value{color:var(--warn)}
+    .kpi.brand .value{color:var(--brand)}
+
+    /* Projects */
+    .projects{grid-column: span 8}
+    .pgrid{display:grid; gap:12px; grid-template-columns: repeat(2, 1fr)}
+    .project{
+      padding:14px; border-radius:12px; border:var(--border); background:linear-gradient(180deg,#ffffff07,#0000);
+      display:grid; gap:8px;
+    }
+    .project h4{margin:0;font-size:15px}
+    .project .tags{display:flex; gap:8px; flex-wrap:wrap}
+    .tag-dot{width:8px;height:8px;border-radius:50%}
+    .row{display:flex; gap:10px; align-items:center; justify-content:space-between}
+    .project .btn-sm{
+      padding:8px 10px; border-radius:10px; border:var(--border); background:#ffffff08; font-size:13px; color:var(--text); text-decoration:none;
+    }
+    .project .btn-sm:hover{background:#ffffff12}
+
+    /* Notes & Links */
+    .links{grid-column: span 4}
+    .list{display:grid; gap:10px}
+    .list a{color:var(--brand); text-decoration:none}
+    .list a:hover{text-decoration:underline}
+
+    .notes{grid-column: span 8}
+    .scratch{
+      display:grid; gap:10px;
+    }
+    textarea{
+      width:100%; min-height:160px; resize:vertical;
+      border-radius:12px; border:var(--border); background:var(--panel); color:var(--text); padding:12px; font-size:14px;
+      box-shadow: var(--shadow);
+    }
+
+    .timeline{grid-column: span 4}
+    .timeitem{padding:10px 12px; border-left:3px solid #ffffff1a; background:linear-gradient(90deg,#ffffff06,#0000); border-radius:8px; margin-bottom:10px}
+    .timeitem small{color:var(--muted)}
+
+    footer{
+      margin-top:20px; padding:16px; border-top:var(--border); color:var(--muted); font-size:12px;
+    }
+
+    /* Responsiveness */
+    @media (max-width: 1060px){
+      .app{grid-template-columns: 1fr}
+      aside{position:static; height:auto; border-right:0; border-bottom:var(--border)}
+    }
+    @media (max-width: 860px){
+      .kpis{grid-template-columns: repeat(2, 1fr)}
+      .projects{grid-column: span 12}
+      .links{grid-column: span 12}
+      .notes{grid-column: span 12}
+      .timeline{grid-column: span 12}
+      .pgrid{grid-template-columns: 1fr}
+    }
   </style>
 </head>
 <body>
-  <header>
-    <div class="wrap row">
-      <div class="brand">🔥 <b>Smokey’s Space</b></div>
-      <nav>
-        <a href="#about">About</a>
-        <a href="#projects">Projects</a>
-        <a href="#notes">Notes</a>
-        <a href="#contact">Contact</a>
-      </nav>
-    </div>
-  </header>
+  <div class="app">
 
-  <main class="wrap">
-    <!-- Hero -->
-    <section class="hero">
-      <div>
-        <h1>Welcome to Smokey’s Space</h1>
-        <p class="muted">Your central hub for builds, baby Wizzs, and experiments. One link to rule them all.</p>
-        <a class="cta" href="#projects">View Projects</a>
-      </div>
-      <div class="panel">
-        <strong>Quick Links</strong>
-        <ul>
-          <li><a style="color:var(--accent)" href="https://cloud-w-i-z-z.vercel.app/" target="_blank" rel="noopener">Cloud Wizz Online</a></li>
-          <li><a style="color:var(--accent)" href="https://YOUR-AI-ARMY-URL.vercel.app/" target="_blank" rel="noopener">AI Army Sales Page</a></li>
-          <!-- TODO: replace the placeholder above with your deployed AI Army URL -->
-        </ul>
-      </div>
-    </section>
-
-    <!-- About -->
-    <section id="about" class="panel" style="margin-bottom:22px">
-      <h2>About</h2>
-      <p class="muted">Smokey (aka DevMaster). Builder of Wizz. This is the base for personal notes, project links, and live demos.</p>
-    </section>
-
-    <!-- Projects -->
-    <section id="projects" style="margin-bottom:22px">
-      <h2>Projects</h2>
-      <div class="grid">
-        <article class="card">
-          <h3>Cloud Wizz Online</h3>
-          <p class="muted">Live chat + rules + memory + voice. Hosted on Vercel.</p>
-          <a href="https://cloud-w-i-z-z.vercel.app/" target="_blank" rel="noopener">Open</a>
-        </article>
-
-        <article class="card">
-          <h3>AI Army Sales</h3>
-          <p class="muted">Clean landing page for the AI Army concept (colors, typography, dark mode).</p>
-          <a href="https://YOUR-AI-ARMY-URL.vercel.app/" target="_blank" rel="noopener">Open</a>
-          <!-- TODO: swap URL once deployed -->
-        </article>
-
-        <article class="card">
-          <h3>Sandbox / Demos</h3>
-          <p class="muted">Small tests (weather, unit toggles, loaders, voice). Good for training baby Wizzs.</p>
-          <a href="#" target="_blank" rel="noopener">Soon</a>
-        </article>
-      </div>
-    </section>
-
-    <!-- Notes -->
-    <section id="notes" class="panel" style="margin-bottom:22px">
-      <h2>Notes & Docs</h2>
-      <ul class="muted" style="line-height:1.9">
-        <li>Wizz Protocol Manual — Tiered rules, logic timer, minimal mode.</li>
-        <li>RuleCore v2 — coding/memory directives.</li>
-        <li>Roadmap — Cloud memory → Legion dashboard → AR later.</li>
-      </ul>
-    </section>
-
-    <!-- Contact -->
-    <section id="contact" class="panel">
-      <h2>Contact</h2>
-      <p class="muted">Drop a message if you want to collaborate or see a demo.</p>
-      <form onsubmit="event.preventDefault(); alert('Got it — we’ll ping you.');">
-        <div style="display:flex;gap:10px;flex-wrap:wrap">
-          <input required type="email" placeholder="Email"
-                 style="flex:1 1 260px;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:#0d1427;color:var(--text)">
-          <input type="text" placeholder="Note"
-                 style="flex:1 1 220px;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:#0d1427;color:var(--text)">
-          <button class="cta" type="submit">Send</button>
+    <aside>
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>Smokey’s Space</h1>
+          <div class="tag">DevMaster • Wizz Commander</div>
         </div>
-      </form>
-    </section>
+      </div>
 
-    <footer>
-      <span>© <span id="y"></span> Smokey’s Space</span>
-      <span class="muted">Built on Vercel • Wizz inside</span>
-    </footer>
-  </main>
+      <nav>
+        <div class="nav">
+          <a href="#overview">🏠 Overview <span class="chip">Home</span></a>
+          <a href="#projects">🛠️ Projects <span class="chip">Builds</span></a>
+          <a href="#notes">📝 Notes <span class="chip">Scratchpad</span></a>
+          <a href="#links">🔗 Links <span class="chip">Routing</span></a>
+        </div>
+      </nav>
+
+      <div class="quick">
+        <div class="tag">Quick Links</div>
+        <a href="https://cloud-w-i-z-z.vercel.app/" target="_blank">⚡ Cloud Wizz Online</a>
+        <a href="https://your-ai-army-landing.vercel.app/" target="_blank">🚀 AI Army Sales Page</a>
+        <a href="https://vercel.com/dashboard" target="_blank">🧭 Vercel Dashboard</a>
+        <a href="https://github.com/999nike" target="_blank">🐙 GitHub /999nike</a>
+      </div>
+    </aside>
+
+    <main>
+      <div class="topbar">
+        <div class="search">
+          <span>🔎</span>
+          <input id="search" placeholder="Search notes, projects, or type a command (e.g. 'new note: …')" />
+        </div>
+        <div class="actions">
+          <button class="btn ghost" id="themeBtn">🌗 Theme</button>
+          <button class="btn primary" onclick="location.reload()">🔁 Refresh</button>
+        </div>
+      </div>
+
+      <section id="overview" class="grid">
+        <!-- KPI tiles -->
+        <div class="kpis card">
+          <div class="kpi brand">
+            <div class="label">Active Projects</div>
+            <div class="value" id="kpi-projects">3</div>
+            <div class="muted">Linked on this hub</div>
+          </div>
+          <div class="kpi ok">
+            <div class="label">Deploys (24h)</div>
+            <div class="value">+2</div>
+            <div class="muted">Vercel</div>
+          </div>
+          <div class="kpi warn">
+            <div class="label">Open TODOs</div>
+            <div class="value" id="kpi-todos">5</div>
+            <div class="muted">Notes section</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Local Time</div>
+            <div class="value" id="clock">--:--</div>
+            <div class="muted">Commander’s clock</div>
+          </div>
+        </div>
+
+        <!-- Projects -->
+        <div id="projects" class="projects card">
+          <h3>Projects</h3>
+          <div class="pgrid">
+            <div class="project">
+              <div class="row">
+                <h4>Cloud Wizz Online</h4>
+                <a class="btn-sm" href="https://cloud-w-i-z-z.vercel.app/" target="_blank">Open</a>
+              </div>
+              <div class="muted">Live chat • memory • voice-ready • hosted on Vercel.</div>
+              <div class="tags">
+                <span class="tag">prod</span><span class="tag">vercel</span><span class="tag">js</span>
+              </div>
+            </div>
+
+            <div class="project">
+              <div class="row">
+                <h4>AI Army Sales</h4>
+                <a class="btn-sm" href="https://your-ai-army-landing.vercel.app/" target="_blank">Open</a>
+              </div>
+              <div class="muted">Landing page with strong CTAs, hero, features, pricing.</div>
+              <div class="tags"><span class="tag">marketing</span><span class="tag">html+css</span></div>
+            </div>
+
+            <div class="project">
+              <div class="row">
+                <h4>Sandbox & Demos</h4>
+                <a class="btn-sm" href="#" target="_blank">Soon</a>
+              </div>
+              <div class="muted">Small test apps (weather, unit toggles, loaders). Great for training baby Wizz’s.</div>
+              <div class="tags"><span class="tag">lab</span><span class="tag">experiments</span></div>
+            </div>
+
+            <div class="project">
+              <div class="row">
+                <h4>Smokey’s Notes Site</h4>
+                <a class="btn-sm" href="#" target="_blank">Soon</a>
+              </div>
+              <div class="muted">Lightweight blog/wiki for plans, rules, and playbooks.</div>
+              <div class="tags"><span class="tag">docs</span><span class="tag">markdown</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Links -->
+        <div id="links" class="links card">
+          <h3>Pinned Links</h3>
+          <div class="list">
+            <a target="_blank" href="https://vercel.com/new">➕ New Vercel Project</a>
+            <a target="_blank" href="https://dashboard.openai.com/">🧠 OpenAI Dashboard</a>
+            <a target="_blank" href="https://fonts.google.com/">🔤 Google Fonts</a>
+            <a target="_blank" href="https://lucide.dev/icons/">✨ Lucide Icons</a>
+          </div>
+        </div>
+
+        <!-- Notes -->
+        <div id="notes" class="notes card">
+          <h3>Scratchpad</h3>
+          <div class="muted">Quick notes save in your browser (local only).</div>
+          <div class="scratch">
+            <textarea id="pad" placeholder="Ideas, todos, deployment notes…"></textarea>
+            <div class="row">
+              <button class="btn" id="clearPad">🧹 Clear</button>
+              <span class="muted" id="saveState">Saved.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="timeline card">
+          <h3>Activity</h3>
+          <div class="timeitem">
+            <strong>Deployed Smokey’s Space</strong><br/>
+            <small>Just now • Vercel</small>
+          </div>
+          <div class="timeitem">
+            <strong>Linked AI Army Sales page</strong><br/>
+            <small>Earlier today</small>
+          </div>
+          <div class="timeitem">
+            <strong>Cloud Wizz Online: passed 20 tests</strong><br/>
+            <small>Yesterday</small>
+          </div>
+        </div>
+      </section>
+
+      <footer class="muted">
+        © <span id="year"></span> Smokey • Built with 💙 by Wizz
+      </footer>
+    </main>
+  </div>
 
   <script>
-    document.getElementById('y').textContent = new Date().getFullYear();
+    // Theme toggle
+    const themeBtn = document.getElementById('themeBtn');
+    themeBtn.addEventListener('click', ()=>{
+      document.body.classList.toggle('light');
+      localStorage.setItem('smokey_theme', document.body.classList.contains('light') ? 'light' : 'dark');
+    });
+    const savedTheme = localStorage.getItem('smokey_theme');
+    if(savedTheme === 'light') document.body.classList.add('light');
+
+    // Live clock
+    function tick(){
+      const d = new Date();
+      const hh = d.getHours().toString().padStart(2,'0');
+      const mm = d.getMinutes().toString().padStart(2,'0');
+      document.getElementById('clock').textContent = `${hh}:${mm}`;
+    }
+    tick(); setInterval(tick, 15000);
+
+    // Scratchpad (localStorage)
+    const pad = document.getElementById('pad');
+    const saveKey = 'smokey_pad_v1';
+    const saveState = document.getElementById('saveState');
+    pad.value = localStorage.getItem(saveKey) || '';
+    let t;
+    pad.addEventListener('input', ()=>{
+      clearTimeout(t);
+      saveState.textContent = 'Saving…';
+      t = setTimeout(()=>{
+        localStorage.setItem(saveKey, pad.value);
+        saveState.textContent = 'Saved.';
+        // Lightweight TODO counter based on "- [ ]" or "•"
+        const todos = (pad.value.match(/(^|\n)\s*(?:- \[ \]|•|-)/g) || []).length;
+        document.getElementById('kpi-todos').textContent = todos;
+      }, 300);
+    });
+    document.getElementById('clearPad').onclick = ()=>{
+      if(confirm('Clear your scratchpad? This only affects this browser.')){
+        pad.value = ''; localStorage.removeItem(saveKey); saveState.textContent = 'Cleared.';
+        document.getElementById('kpi-todos').textContent = '0';
+      }
+    };
+
+    // Simple command palette in search
+    const search = document.getElementById('search');
+    search.addEventListener('keydown', (e)=>{
+      if(e.key === 'Enter'){
+        const v = search.value.trim();
+        if(/^new note:/i.test(v)){
+          pad.value = (pad.value ? pad.value + "\n\n" : "") + v.replace(/^new note:\s*/i,'');
+          pad.dispatchEvent(new Event('input'));
+          search.value = '';
+        }else if(/^goto\s+/i.test(v)){
+          const id = v.split(/\s+/)[1] || '';
+          if(id){ location.hash = id.toLowerCase(); }
+          search.value = '';
+        }else{
+          // Just a quick filter highlight for projects text
+          const cards = [...document.querySelectorAll('.project')];
+          cards.forEach(c=>{
+            const hit = c.innerText.toLowerCase().includes(v.toLowerCase());
+            c.style.outline = hit && v ? '2px solid var(--brand)' : 'none';
+          });
+        }
+      }
+    });
+
+    // Year + derived KPIs
+    document.getElementById('year').textContent = new Date().getFullYear();
+    document.getElementById('kpi-projects').textContent =
+      document.querySelectorAll('.project').length.toString();
   </script>
 </body>
 </html>
+
