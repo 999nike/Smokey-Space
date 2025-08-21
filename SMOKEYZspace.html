@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Smokey’s Space — Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#0b0f1a;--panel:#0f1629;--text:#e6ecff;--muted:#9fb0d2;--card:#141c33;--accent:#7cf0ff;--cta:#ff6b9c}
+    *{box-sizing:border-box} html,body{margin:0;padding:0}
+    body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text)}
+    .wrap{max-width:1100px;margin:0 auto;padding:24px}
+    header{position:sticky;top:0;z-index:9;background:linear-gradient(180deg,rgba(11,15,26,.95),rgba(11,15,26,.6));backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+    .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .brand{font-weight:800;letter-spacing:.3px}
+    .brand b{background:linear-gradient(90deg,var(--accent),var(--cta));-webkit-background-clip:text;background-clip:text;color:transparent}
+    nav a{color:var(--text);opacity:.9;text-decoration:none;margin:0 10px;font-weight:600}
+    nav a:hover{opacity:1;text-decoration:underline}
+    .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:22px;align-items:center;padding:34px 0}
+    @media (max-width:900px){.hero{grid-template-columns:1fr}}
+    h1{font-size:clamp(32px,5.6vw,60px);line-height:1.05;margin:6px 0 10px}
+    .muted{color:var(--muted)}
+    .cta{display:inline-block;margin-top:12px;padding:12px 16px;border-radius:12px;background:linear-gradient(90deg,var(--cta),var(--accent));color:#001; font-weight:800;text-decoration:none}
+    .panel{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    @media (max-width:900px){.grid{grid-template-columns:1fr 1fr}}
+    @media (max-width:640px){.grid{grid-template-columns:1fr}}
+    .card{background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px}
+    .card h3{margin:0 0 6px}
+    .card a{display:inline-block;margin-top:10px;color:#001;background:var(--accent);padding:8px 12px;border-radius:10px;font-weight:700;text-decoration:none}
+    footer{margin:30px 0;color:var(--muted);font-size:14px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap row">
+      <div class="brand">🔥 <b>Smokey’s Space</b></div>
+      <nav>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#notes">Notes</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- Hero -->
+    <section class="hero">
+      <div>
+        <h1>Welcome to Smokey’s Space</h1>
+        <p class="muted">Your central hub for builds, baby Wizzs, and experiments. One link to rule them all.</p>
+        <a class="cta" href="#projects">View Projects</a>
+      </div>
+      <div class="panel">
+        <strong>Quick Links</strong>
+        <ul>
+          <li><a style="color:var(--accent)" href="https://cloud-w-i-z-z.vercel.app/" target="_blank" rel="noopener">Cloud Wizz Online</a></li>
+          <li><a style="color:var(--accent)" href="https://YOUR-AI-ARMY-URL.vercel.app/" target="_blank" rel="noopener">AI Army Sales Page</a></li>
+          <!-- TODO: replace the placeholder above with your deployed AI Army URL -->
+        </ul>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="panel" style="margin-bottom:22px">
+      <h2>About</h2>
+      <p class="muted">Smokey (aka DevMaster). Builder of Wizz. This is the base for personal notes, project links, and live demos.</p>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" style="margin-bottom:22px">
+      <h2>Projects</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>Cloud Wizz Online</h3>
+          <p class="muted">Live chat + rules + memory + voice. Hosted on Vercel.</p>
+          <a href="https://cloud-w-i-z-z.vercel.app/" target="_blank" rel="noopener">Open</a>
+        </article>
+
+        <article class="card">
+          <h3>AI Army Sales</h3>
+          <p class="muted">Clean landing page for the AI Army concept (colors, typography, dark mode).</p>
+          <a href="https://YOUR-AI-ARMY-URL.vercel.app/" target="_blank" rel="noopener">Open</a>
+          <!-- TODO: swap URL once deployed -->
+        </article>
+
+        <article class="card">
+          <h3>Sandbox / Demos</h3>
+          <p class="muted">Small tests (weather, unit toggles, loaders, voice). Good for training baby Wizzs.</p>
+          <a href="#" target="_blank" rel="noopener">Soon</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- Notes -->
+    <section id="notes" class="panel" style="margin-bottom:22px">
+      <h2>Notes & Docs</h2>
+      <ul class="muted" style="line-height:1.9">
+        <li>Wizz Protocol Manual — Tiered rules, logic timer, minimal mode.</li>
+        <li>RuleCore v2 — coding/memory directives.</li>
+        <li>Roadmap — Cloud memory → Legion dashboard → AR later.</li>
+      </ul>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="panel">
+      <h2>Contact</h2>
+      <p class="muted">Drop a message if you want to collaborate or see a demo.</p>
+      <form onsubmit="event.preventDefault(); alert('Got it — we’ll ping you.');">
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <input required type="email" placeholder="Email"
+                 style="flex:1 1 260px;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:#0d1427;color:var(--text)">
+          <input type="text" placeholder="Note"
+                 style="flex:1 1 220px;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:#0d1427;color:var(--text)">
+          <button class="cta" type="submit">Send</button>
+        </div>
+      </form>
+    </section>
+
+    <footer>
+      <span>© <span id="y"></span> Smokey’s Space</span>
+      <span class="muted">Built on Vercel • Wizz inside</span>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
