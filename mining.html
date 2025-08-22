@@ -1,46 +1,59 @@
-
-
-
-  
-  
-  
-  
-  
-
-
-  
-    
-
-      
-🔥 Smokey’s Space
-
-      
-        Home
-        Mining
-        Market
-      
-    
-
-  
-  
-    
-
-      
-Mining Hub
-
-      
-Live market board + hooks for your NiceHash stats. Same vibe, page 2.
-
-      
-
-        Jump to Market Top 50
-        Connect NiceHash
-      
-
-    
-
-
-<section id="nicehash" class="grid" style="margin-bottom:16px">
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Smokey’s Space — Mining Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#0b0f1a;--panel:#0f1629;--text:#e6ecff;--muted:#9fb0d2;--card:#141c33;--accent:#7cf0ff;--cta:#ff6b9c}
+    *{box-sizing:border-box} html,body{margin:0;padding:0}
+    body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text)}
+    .wrap{max-width:1100px;margin:0 auto;padding:24px}
+    header{position:sticky;top:0;z-index:9;background:linear-gradient(180deg,rgba(11,15,26,.95),rgba(11,15,26,.6));backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+    .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .brand{font-weight:800;letter-spacing:.3px}
+    .brand b{background:linear-gradient(90deg,var(--accent),var(--cta));-webkit-background-clip:text;background-clip:text;color:transparent}
+    nav a{color:var(--text);opacity:.9;text-decoration:none;margin:0 10px;font-weight:600}
+    nav a:hover{opacity:1;text-decoration:underline}
+    h1{font-size:clamp(32px,5.6vw,60px);line-height:1.05;margin:16px 0 10px}
+    h2{margin:0 0 8px}
+    .muted{color:var(--muted)}
+    .panel{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    @media (max-width:900px){.grid{grid-template-columns:1fr}}
+    .card{background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px}
+    .cta{display:inline-block;padding:10px 14px;border-radius:12px;background:linear-gradient(90deg,var(--cta),var(--accent));color:#001;font-weight:800;text-decoration:none}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:10px;border-bottom:1px solid rgba(255,255,255,.08);text-align:left}
+    th{position:sticky;top:64px;background:var(--panel);z-index:1}
+    .pill{display:inline-block;padding:4px 8px;border-radius:999px;background:#0d1427;border:1px solid rgba(255,255,255,.1)}
+    .right{display:flex;gap:10px;align-items:center}
+    .input{padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:#0d1427;color:var(--text)}
+    .footer{margin:30px 0;color:var(--muted);font-size:14px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+    .skeleton{height:14px;background:linear-gradient(90deg,rgba(255,255,255,.06),rgba(255,255,255,.12),rgba(255,255,255,.06));background-size:200% 100%;animation:shimmer 1.2s infinite}
+    @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+    .num{font-variant-numeric:tabular-nums}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap row">
+      <div class="brand">🔥 <b>Smokey’s Space</b></div>
+      <nav>
+        <a href="./SMOKEYZspace.html">Home</a>
+        <a href="#" style="opacity:1;text-decoration:underline">Mining</a>
+        <a href="#market">Market</a>
+      </nav>
+    </div>
+  </header>  <main class="wrap">
+    <section class="panel" style="margin:16px 0">
+      <h1>Mining Hub</h1>
+      <p class="muted">Live market board + hooks for your NiceHash stats. Same vibe, page 2.</p>
+      <div class="right">
+        <a class="cta" href="#market">Jump to Market Top 50</a>
+        <a class="cta" href="#nicehash">Connect NiceHash</a>
+      </div>
+    </section><section id="nicehash" class="grid" style="margin-bottom:16px">
   <article class="card">
     <h2>NiceHash Connection</h2>
     <p class="muted">⚠️ Keep secrets server-side. Don’t paste your API Secret in the browser.</p>
@@ -60,6 +73,105 @@ Live market board + hooks for your NiceHash stats. Same vibe, page 2.
   <article class="card">
     <h2>Rig Snapshot</h2>
     <div id="rigBox" class="muted">Waiting for data…</div>
+  </article>
+</section>
+
+<section id="market" class="panel">
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+    <h2>Top 50 Crypto — Live</h2>
+    <div><span class="pill">Source: CoinGecko</span> <span class="pill" id="lastRefresh">—</span>
+      <button class="cta" onclick="loadMarket()" style="margin-left:8px">Refresh</button>
+    </div>
+  </div>
+  <div style="overflow:auto;margin-top:10px">
+    <table id="marketTable">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Coin</th>
+          <th>Price</th>
+          <th>24h</th>
+          <th>7d</th>
+          <th>Market Cap</th>
+          <th>Volume 24h</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- rows injected here -->
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer class="footer">
+  <span>© <span id="y"></span> Smokey’s Space</span>
+  <span class="muted">Built on Vercel • Wizz inside</span>
+</footer>
+
+  </main>  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    async function loadMarket(){
+      const url = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=50&page=1&sparkline=false&price_change_percentage=24h,7d';
+      const tbody = document.querySelector('#marketTable tbody');
+      tbody.innerHTML = '<tr><td colspan="7"><div class="skeleton" style="width:100%"></div></td></tr>';
+      try{
+        const res = await fetch(url);
+        const data = await res.json();
+        const fmt = (n, d=2) => n===null||n===undefined ? '—' : Number(n).toLocaleString(undefined,{minimumFractionDigits:d,maximumFractionDigits:d});
+        const money = n => n===null||n===undefined ? '—' : '$' + Number(n).toLocaleString();
+        tbody.innerHTML = data.map((c,i)=>{
+          const p = Number(c.current_price);
+          const ch24 = c.price_change_percentage_24h_in_currency;
+          const ch7 = c.price_change_percentage_7d_in_currency;
+          return `<tr>
+            <td class="num">${i+1}</td>
+            <td><img src="${c.image}" alt="" style="width:18px;height:18px;vertical-align:-3px;border-radius:50%"> ${c.name} <span class="muted" style="text-transform:uppercase">${c.symbol}</span></td>
+            <td class="num">$${fmt(p)}</td>
+            <td class="num" style="color:${ch24>=0?'#4ade80':'#f87171'}">${fmt(ch24)}%</td>
+            <td class="num" style="color:${ch7>=0?'#4ade80':'#f87171'}">${fmt(ch7)}%</td>
+            <td class="num">${money(c.market_cap)}</td>
+            <td class="num">${money(c.total_volume)}</td>
+          </tr>`
+        }).join('');
+        document.getElementById('lastRefresh').textContent = 'Updated ' + new Date().toLocaleTimeString();
+      }catch(e){
+        tbody.innerHTML = `<tr><td colspan="7" class="muted">Failed to load market data. ${e}</td></tr>`;
+      }
+    }
+
+    // NiceHash loader calls your proxy endpoint (no secrets in client!)
+    async function loadNicehash(){
+      const endpoint = document.getElementById('nhEndpoint').value.trim();
+      const statsBox = document.getElementById('nhStats');
+      const rigBox = document.getElementById('rigBox');
+      if(!endpoint){ statsBox.innerHTML = '<span class="muted">Add your /api/nicehash endpoint first.</span>'; return; }
+      statsBox.innerHTML = '<div class="skeleton" style="width:80%"></div>';
+      try{
+        const res = await fetch(endpoint);
+        if(!res.ok) throw new Error('HTTP '+res.status);
+        const payload = await res.json();
+        // Expect your endpoint to normalize to: { totalHashrate, unpaid, rigs: [...] }
+        statsBox.innerHTML = `<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+          <div class="panel"><div class="muted">Total Hashrate</div><div class="num" style="font-size:22px">${payload.totalHashrate || '—'}</div></div>
+          <div class="panel"><div class="muted">Unpaid</div><div class="num" style="font-size:22px">${payload.unpaid || '—'}</div></div>
+          <div class="panel"><div class="muted">Active Rigs</div><div class="num" style="font-size:22px">${(payload.rigs||[]).filter(r=>r.active).length}</div></div>
+        </div>`;
+        rigBox.innerHTML = (payload.rigs||[]).map(r=>`<div class="panel" style="margin-top:10px">
+          <div style="display:flex;justify-content:space-between"><strong>${r.name||'Rig'}</strong><span class="pill">${r.algo||''}</span></div>
+          <div class="muted">${r.devices? r.devices+' devices' : ''}</div>
+          <div class="num">${r.hashrate||'—'}</div>
+        </div>`).join('') || '<span class="muted">No rigs returned.</span>';
+      }catch(e){
+        statsBox.innerHTML = `<span class="muted">Failed to load from your endpoint. ${e.message}</span>`;
+        rigBox.textContent = '';
+      }
+    }
+
+    // Auto-load market on first visit
+    loadMarket();
+  </script></body>
+</html>    <div id="rigBox" class="muted">Waiting for data…</div>
   </article>
 </section>
 
