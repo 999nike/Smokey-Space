@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Army Sales — Launch Smarter</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#0b0f1a;
+      --panel:#0f1629;
+      --card:rgba(255,255,255,.06);
+      --text:#e6ecff;
+      --muted:#a7b0c6;
+      --accent:#7cf0ff;
+      --accent-2:#b784ff;
+      --cta:#ff6b9c;
+      --ring: 0 0 0 3px rgba(124,240,255,.35);
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    .light{
+      --bg:#f7f9fc; --panel:#ffffff; --card:#ffffffd9; --text:#0d1020; --muted:#4a5370;
+      --accent:#0068ff; --accent-2:#7b2cff; --cta:#ff3d71; --shadow:0 10px 30px rgba(0,24,64,.10);
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0; padding:0; background:var(--bg); color:var(--text); font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;}
+
+    /* header */
+    .nav{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(12px);
+      background: linear-gradient(180deg, rgba(14,20,38,.9), rgba(14,20,38,.35));
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .container{max-width:1100px; margin:0 auto; padding:16px 20px;}
+    .row{display:flex; align-items:center; gap:14px; justify-content:space-between}
+    .brand{font-family:"Plus Jakarta Sans", Inter; font-weight:800; letter-spacing:.3px;}
+    .brand .glow{
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+      filter: drop-shadow(0 0 22px rgba(124,240,255,.35));
+    }
+    .nav a{color:var(--text); text-decoration:none; font-weight:600; opacity:.85; margin:0 10px}
+    .nav a:hover{opacity:1; text-decoration:underline}
+
+    /* hero */
+    .hero{
+      padding:72px 20px 40px;
+      background:
+        radial-gradient(1200px 600px at 10% -10%, rgba(124,240,255,.12), transparent 60%),
+        radial-gradient(1200px 600px at 90% -10%, rgba(183,132,255,.12), transparent 60%);
+    }
+    .hero-wrap{display:grid; grid-template-columns:1.1fr .9fr; gap:28px}
+    @media (max-width:880px){ .hero-wrap{grid-template-columns:1fr} }
+    .title{font-size: clamp(34px, 6vw, 62px); line-height:1.05; margin:0 0 10px; font-weight:800; letter-spacing:-.5px}
+    .subtitle{font-size: clamp(16px, 2.4vw, 20px); color:var(--muted); margin:0 0 26px}
+    .cta{display:inline-flex; align-items:center; gap:10px; padding:14px 20px; border-radius:14px; font-weight:800;
+      color:#fff; background: linear-gradient(90deg, var(--cta), var(--accent-2)); box-shadow: var(--shadow); border:none; cursor:pointer}
+    .cta:focus{outline:none; box-shadow: var(--shadow), var(--ring)}
+    .ghost{background:transparent; color:var(--text); border:1px solid rgba(255,255,255,.2)}
+    .hero-card{
+      background:var(--panel); border:1px solid rgba(255,255,255,.08); border-radius:20px; overflow:hidden; box-shadow:var(--shadow)
+    }
+    .hero-card img{display:block; width:100%; aspect-ratio: 4/3; object-fit:cover}
+    .tag{display:inline-block; padding:8px 12px; border-radius:999px; background:rgba(124,240,255,.12); color:var(--accent); font-weight:700; font-size:12px; letter-spacing:.6px; text-transform:uppercase}
+
+    /* sections */
+    section{padding:56px 20px}
+    .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
+    @media (max-width:960px){ .grid-3{grid-template-columns:1fr 1fr} }
+    @media (max-width:640px){ .grid-3{grid-template-columns:1fr} }
+
+    .card{
+      background:var(--card); border:1px solid rgba(255,255,255,.1); border-radius:16px; padding:20px;
+      box-shadow:var(--shadow); transition:transform .2s ease, border-color .2s ease;
+    }
+    .card:hover{transform: translateY(-3px); border-color: rgba(124,240,255,.35)}
+    .card h3{margin:6px 0 6px; font-family:"Plus Jakarta Sans"; font-weight:800}
+    .muted{color:var(--muted)}
+
+    /* pricing */
+    .price{font-size:36px; font-weight:800}
+    .price small{font-size:14px; color:var(--muted); font-weight:600}
+
+    /* footer */
+    footer{padding:36px 20px; border-top:1px solid rgba(255,255,255,.08); color:var(--muted)}
+
+    /* tiny fade-in */
+    [data-reveal]{opacity:0; transform: translateY(8px); animation:reveal .6s ease forwards; }
+    [data-reveal].d2{animation-delay:.12s} [data-reveal].d3{animation-delay:.24s} [data-reveal].d4{animation-delay:.36s}
+    @keyframes reveal{to{opacity:1; transform:none}}
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <div class="nav">
+    <div class="container row">
+      <div class="brand"><span class="glow">AI Army</span> Sales</div>
+      <nav>
+        <a href="#about">About</a>
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#contact">Contact</a>
+        <button id="mode" class="cta ghost" style="margin-left:10px;padding:8px 14px;">🌙</button>
+      </nav>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="container hero-wrap">
+      <div>
+        <span class="tag" data-reveal>Next‑Gen Automations</span>
+        <h1 class="title" data-reveal>Unleash the <span class="glow" style="background:linear-gradient(90deg,var(--accent),var(--cta));-webkit-background-clip:text;background-clip:text;color:transparent">Power of AI</span> in Your Ops</h1>
+        <p class="subtitle" data-reveal class="d2">Spin up task forces of agentic AIs to sell, support, and scale — 24/7.</p>
+        <div class="row" style="gap:10px" data-reveal class="d3">
+          <button class="cta">🚀 Get Started Today</button>
+          <button class="cta ghost">📄 View Playbook</button>
+        </div>
+      </div>
+
+      <div class="hero-card" data-reveal class="d2">
+        <!-- AI image placeholder (swap with your own later) -->
+        <img src="https://picsum.photos/seed/ai-ops/900/650" alt="AI dashboard preview" />
+      </div>
+    </div>
+  </header>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <div class="container">
+      <h2 style="font-family:'Plus Jakarta Sans'; font-size:32px; margin:0 0 12px">Features</h2>
+      <p class="muted" style="margin:0 0 20px">Built to perform. Styled to impress.</p>
+
+      <div class="grid-3">
+        <div class="card" data-reveal>
+          <span class="tag">Autonomy</span>
+          <h3>Agent Squads</h3>
+          <p class="muted">Deploy role‑based agents for lead gen, outreach, and follow‑ups — coordinated like a team.</p>
+        </div>
+        <div class="card" data-reveal class="d2">
+          <span class="tag">Precision</span>
+          <h3>Memory & Personas</h3>
+          <p class="muted">Persistent memory and brand‑tuned personas deliver consistent conversations that convert.</p>
+        </div>
+        <div class="card" data-reveal class="d3">
+          <span class="tag">Realtime</span>
+          <h3>Voice + Vision</h3>
+          <p class="muted">Talk, see, act. Optional voice replies and AI 📸 image understanding where you need it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY / AI IMAGES -->
+  <section aria-label="Gallery">
+    <div class="container grid-3">
+      <div class="card" data-reveal><img src="https://picsum.photos/seed/ai-lab/720/480" alt="AI lab" style="width:100%; border-radius:10px"></div>
+      <div class="card" data-reveal class="d2"><img src="https://picsum.photos/seed/ai-chat/720/480" alt="AI chat" style="width:100%; border-radius:10px"></div>
+      <div class="card" data-reveal class="d3"><img src="https://picsum.photos/seed/ai-sales/720/480" alt="AI sales" style="width:100%; border-radius:10px"></div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing">
+    <div class="container">
+      <h2 style="font-family:'Plus Jakarta Sans'; font-size:32px; margin:0 0 12px">Pricing</h2>
+      <p class="muted" style="margin:0 0 20px">Start small. Scale fast.</p>
+
+      <div class="grid-3">
+        <div class="card" data-reveal>
+          <h3>Starter</h3>
+          <p class="price">$29 <small>/mo</small></p>
+          <ul class="muted" style="padding-left:18px; line-height:1.8">
+            <li>1 Agent squad</li><li>Basic memory</li><li>Email support</li>
+          </ul>
+          <button class="cta" style="width:100%">Choose Starter</button>
+        </div>
+        <div class="card" data-reveal class="d2" style="border-color:rgba(124,240,255,.35)">
+          <h3>Growth</h3>
+          <p class="price">$99 <small>/mo</small></p>
+          <ul class="muted" style="padding-left:18px; line-height:1.8">
+            <li>3 Agent squads</li><li>Shared memory</li><li>Priority support</li>
+          </ul>
+          <button class="cta" style="width:100%">Choose Growth</button>
+        </div>
+        <div class="card" data-reveal class="d3">
+          <h3>Enterprise</h3>
+          <p class="price">Let’s talk</p>
+          <ul class="muted" style="padding-left:18px; line-height:1.8">
+            <li>Custom squads & SLAs</li><li>On‑prem or VPC</li><li>Dedicated success</li>
+          </ul>
+          <button class="cta ghost" style="width:100%">Contact Sales</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container">
+      <div class="card" data-reveal>
+        <h3 style="margin:0 0 10px">Let’s build your AI army</h3>
+        <p class="muted" style="margin:0 0 16px">Tell us your goal. We’ll ship a pilot in days, not months.</p>
+        <form onsubmit="event.preventDefault(); alert('We’ll be in touch ✉️');">
+          <div class="row" style="gap:10px; flex-wrap:wrap">
+            <input required placeholder="Your email" type="email"
+                   style="flex:1 1 260px; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.2); background:transparent; color:var(--text)">
+            <input placeholder="Company" type="text"
+                   style="flex:1 1 220px; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.2); background:transparent; color:var(--text)">
+            <button class="cta">Request Demo</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container row" style="justify-content:space-between">
+      <div>© <span id="y"></span> AI Army. All rights reserved.</div>
+      <div class="muted">Made with ⚡ by Wizz</div>
+    </div>
+  </footer>
+
+  <script>
+    // year + mode toggle
+    document.getElementById('y').textContent = new Date().getFullYear();
+    const root = document.documentElement;
+    const modeBtn = document.getElementById('mode');
+    const LS_KEY = "ai-army-mode";
+    function setMode(m){ if(m==="light"){ document.body.classList.add("light"); modeBtn.textContent="☀️"; } else { document.body.classList.remove("light"); modeBtn.textContent="🌙"; } localStorage.setItem(LS_KEY,m); }
+    setMode(localStorage.getItem(LS_KEY)||""); modeBtn.onclick=()=>setMode(document.body.classList.contains("light")?"":"light");
+
+    // small staggered reveal
+    for(const el of document.querySelectorAll("[data-reveal]")) el.classList.add("d1");
+  </script>
+</body>
+</html>
