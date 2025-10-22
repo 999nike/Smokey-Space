@@ -206,13 +206,16 @@
 </head>
 <body>
   <div class="logo-wrap" style="text-align:center; margin:35px 0; position:relative; perspective:800px;">
-    <!-- Halo -->
-    <div class="halo"></div>
+    <!-- Tilt container (moves with mouse) -->
+    <div class="tilt" style="display:inline-block; position:relative; transform-style:preserve-3d;">
+      <!-- Halo -->
+      <div class="halo"></div>
 
-    <!-- Logo -->
-    <img src="wizzlab_logo.png" alt="W.I.Z.Z. Lab Studios"
-         class="logo-pulse"
-         style="width:220px; z-index:2; position:relative; will-change:transform;">
+      <!-- Logo (keeps its own spin/glow) -->
+      <img src="wizzlab_logo.png" alt="W.I.Z.Z. Lab Studios"
+           class="logo-pulse"
+           style="width:220px; z-index:2; position:relative; will-change:transform;">
+    </div>
 
     <!-- Label -->
     <h2 style="color:#bbaaff; font-weight:700; letter-spacing:2px; margin-top:12px; font-family:Inter, sans-serif;">
@@ -222,74 +225,65 @@
 
   <style>
   /* --- HALO BACKDROP --- */
-  .halo {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, rgba(150,0,255,0.45) 0%, rgba(0,0,0,0) 70%);
-    transform: translate(-50%, -50%);
-    border-radius: 50%;
-    filter: blur(60px);
-    animation: haloPulse 6s infinite ease-in-out;
-    z-index: 1;
+  .halo{
+    position:absolute; left:50%; top:50%;
+    width:400px; height:400px; border-radius:50%;
+    transform:translate(-50%,-50%);
+    background:radial-gradient(circle, rgba(150,0,255,0.45) 0%, rgba(0,0,0,0) 70%);
+    filter:blur(60px); z-index:1; animation:haloPulse 6s infinite ease-in-out;
+  }
+  @keyframes haloPulse{
+    0%,100%{transform:translate(-50%,-50%) scale(1); opacity:.75; filter:blur(55px)}
+    50%{transform:translate(-50%,-50%) scale(1.15); opacity:1; filter:blur(80px)}
   }
 
-  @keyframes haloPulse {
-    0%, 100% {
-      transform: translate(-50%, -50%) scale(1);
-      opacity: 0.75;
-      filter: blur(55px);
-    }
-    50% {
-      transform: translate(-50%, -50%) scale(1.15);
-      opacity: 1;
-      filter: blur(80px);
-    }
-  }
-
-  /* --- LOGO GLOW + SPIN + PARALLAX --- */
-  .logo-pulse {
+  /* --- LOGO GLOW + SPIN --- */
+  .logo-pulse{
     animation: fadeIn 2s ease-out forwards, glowPulse 5s infinite ease-in-out, spin 18s linear infinite;
     filter: drop-shadow(0 0 25px #b85cff) drop-shadow(0 0 45px #5f3cff);
-    transform-origin: center center;
-    transition: filter 0.5s ease, transform 0.5s ease;
+    transform-origin:center center; transition: filter .5s ease, transform .5s ease;
   }
-  .logo-pulse:hover {
-    filter: drop-shadow(0 0 55px #d470ff) drop-shadow(0 0 90px #9a6cff);
-    transform: scale(1.08) rotate(2deg);
-  }
+  .logo-pulse:hover{ filter: drop-shadow(0 0 55px #d470ff) drop-shadow(0 0 90px #9a6cff); transform: scale(1.08) rotate(2deg) }
 
-  @keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.9); }
-    to { opacity: 1; transform: scale(1); }
+  @keyframes fadeIn{ from{opacity:0; transform:scale(.9)} to{opacity:1; transform:scale(1)} }
+  @keyframes glowPulse{
+    0%,100%{ filter: drop-shadow(0 0 25px #b85cff) drop-shadow(0 0 45px #5f3cff) }
+    50%{    filter: drop-shadow(0 0 55px #d470ff) drop-shadow(0 0 90px #9a6cff) }
   }
+  @keyframes spin{ from{transform:rotateY(0deg)} to{transform:rotateY(360deg)} }
 
-  @keyframes glowPulse {
-    0%, 100% { filter: drop-shadow(0 0 25px #b85cff) drop-shadow(0 0 45px #5f3cff); }
-    50% { filter: drop-shadow(0 0 55px #d470ff) drop-shadow(0 0 90px #9a6cff); }
+  /* --- PARALLAX ON WRAPPER (combines with spin) --- */
+  .logo-wrap{ --tiltX:0deg; --tiltY:0deg }
+  .tilt{ transform: rotateX(var(--tiltX)) rotateY(var(--tiltY)); transition: transform .2s ease }
+
+  /* Responsive (same as before; keep if you already have) */
+  @media (max-width:768px){
+    .halo{ width:260px; height:260px; filter:blur(40px); top:46% }
+    .logo-pulse{ width:160px; animation-duration:25s }
+    h2{ font-size:16px; letter-spacing:1.5px; margin-top:6px }
   }
-
-  @keyframes spin {
-    from { transform: rotateY(0deg); }
-    to { transform: rotateY(360deg); }
-  }
-
-  /* --- PARALLAX HOVER EFFECT --- */
-  body:hover .logo-pulse {
-    transform: rotateY(var(--rotateY, 0deg)) rotateX(var(--rotateX, 0deg)) scale(1.05);
+  @media (min-width:769px){
+    .halo{ width:400px; height:400px; filter:blur(60px) }
+    .logo-pulse{ width:220px; animation-duration:18s }
+    h2{ font-size:20px; letter-spacing:2px }
   }
   </style>
 
   <script>
-  // Simple 3D illusion (mouse move)
-  document.addEventListener("mousemove", e => {
-    const x = e.clientX / window.innerWidth - 0.5;
-    const y = e.clientY / window.innerHeight - 0.5;
-    document.body.style.setProperty("--rotateY", `${x * 30}deg`);
-    document.body.style.setProperty("--rotateX", `${-y * 30}deg`);
-  });
+  // Parallax tilt: write vars on the wrapper so it stacks with the image's spin
+  (function(){
+    const wrap = document.querySelector('.logo-wrap');
+    const max = 20; // degrees
+    function setTilt(x, y){
+      wrap.style.setProperty('--tiltY', (x*max)+'deg');
+      wrap.style.setProperty('--tiltX', (-y*max)+'deg');
+    }
+    document.addEventListener('mousemove', e=>{
+      const x = e.clientX / window.innerWidth - 0.5;
+      const y = e.clientY / window.innerHeight - 0.5;
+      setTilt(x, y);
+    }, {passive:true});
+  })();
   </script>
 </body>
   <div class="app">
