@@ -329,19 +329,23 @@
   }
 
   /* --- RESPONSIVE --- */
-  @media (max-width: 768px) {
-    .logo-pulse { width: 150px; }
-    .halo { width: 280px; height: 280px; }
-    .electric::before, .electric::after { width: 200px; height: 200px; }
-  }
-   .logo-wrapper {
+@media (max-width: 768px) {
+  .logo-pulse { width: 150px; }
+  .halo { width: 280px; height: 280px; }
+  .electric::before, .electric::after { width: 200px; height: 200px; }
+}
+
+/* ---- PATCH 2.3 CLEAN : Core-on-Chip Depth + Glow ---- */
+.logo-wrapper {
   perspective: 900px;
   animation: coreSpin 14s linear infinite;
   display: inline-block;
-  transform-origin: center;  
+  transform-origin: center;
+  z-index: 2;
 }
+
 @keyframes coreSpin {
-  0% { transform: rotateY(0deg); }
+  0%   { transform: rotateY(0deg); }
   100% { transform: rotateY(360deg); }
 }
 
@@ -349,19 +353,22 @@
   position: relative;
   transform-style: preserve-3d;
   transform: rotateX(3deg) rotateY(0deg);
+  scale: 0.75;
+  z-index: 2;
 }
 
 /* top face (scaled to original size) */
 .logo {
   display: block;
-  width: 220px;              /* original .logo-pulse width */
+  width: 220px;
   max-width: 80vw;
   transform: translateZ(2px);
   border-radius: 14px;
   box-shadow:
-    0 0 12px rgba(0,255,255,0.3),
+    0 0 12px rgba(0,255,255,0.35),
+    0 0 25px rgba(0,255,255,0.25),
     0 4px 8px rgba(0,0,0,0.6);
-  margin: 0 auto;            /* keeps it centered */
+  margin: 0 auto;
 }
 
 /* rear face (4 mm thick base) */
@@ -372,8 +379,9 @@
   background: linear-gradient(145deg,#1a1a1a,#000);
   transform: translateZ(-4px);
   border-radius: 14px;
-  box-shadow: inset 0 0 6px rgba(0,255,255,0.1),
-              0 6px 10px rgba(0,0,0,0.6);
+  box-shadow:
+    inset 0 0 6px rgba(0,255,255,0.1),
+    0 6px 10px rgba(0,0,0,0.6);
 }
 
 /* faint rim glow */
@@ -383,11 +391,11 @@
   inset: -1px;
   border-radius: 14px;
   background: radial-gradient(circle at center,
-    rgba(0,255,255,0.15), transparent 60%);
+    rgba(0,255,255,0.2), transparent 70%);
   transform: translateZ(-2px);
 }
 
-/* animated trace overlay */
+/* soft etched circuit aura (no diamond) */
 .trace-overlay {
   position: absolute;
   inset: 0;
@@ -395,19 +403,25 @@
   opacity: 0.35;
   animation: pulseTraces 6s ease-in-out infinite;
 }
+
 @keyframes pulseTraces {
   0%,100% { opacity: 0.25; filter: blur(0px); }
-  50%     { opacity: 0.6;  filter: blur(1px); }
-} 
-  </style>
+  50%     { opacity: 0.65;  filter: blur(1px); }
+}
 
-  <script>
-  // --- LIGHT CRACKLE INTENSITY JITTER ---
-  setInterval(() => {
-    const el = document.querySelector('.electric');
-    el.style.opacity = 0.7 + Math.random() * 0.3;
-  }, 120);
-  </script>
+/* make sure halo glows above chip */
+.halo {
+  z-index: 3;
+}
+</style>
+
+<script>
+// --- LIGHT CRACKLE INTENSITY JITTER ---
+setInterval(() => {
+  const el = document.querySelector('.electric');
+  if (el) el.style.opacity = 0.7 + Math.random() * 0.3;
+}, 120);
+</script>
 </body>
   <div class="app">
 
