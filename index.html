@@ -205,24 +205,60 @@
   </style>
 </head>
 <body>
-  <div style="text-align:center; margin:25px 0;">
-    <img src="wizzlab_logo.png" alt="W.I.Z.Z. Lab Studios" width="200" class="logo-pulse">
-    <h2 style="color:#bbaaff; font-weight:700; letter-spacing:2px; margin-top:8px; font-family:Inter, sans-serif;">
+  <div style="text-align:center; margin:35px 0; position:relative;">
+    <!-- Halo -->
+    <div class="halo"></div>
+
+    <!-- Logo -->
+    <img src="wizzlab_logo.png" alt="W.I.Z.Z. Lab Studios"
+         class="logo-pulse"
+         style="width:220px; z-index:2; position:relative;">
+    
+    <!-- Label -->
+    <h2 style="color:#bbaaff; font-weight:700; letter-spacing:2px; margin-top:12px; font-family:Inter, sans-serif;">
       W.I.Z.Z. LAB STUDIOS
     </h2>
   </div>
 
   <style>
-  /* --- WIZZ LAB PULSE & HALO EFFECT --- */
+  /* --- HALO BACKDROP --- */
+  .halo {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(150,0,255,0.45) 0%, rgba(0,0,0,0) 70%);
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    filter: blur(60px);
+    animation: haloPulse 6s infinite ease-in-out;
+    z-index: 1;
+  }
+
+  @keyframes haloPulse {
+    0%, 100% {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 0.75;
+      filter: blur(55px);
+    }
+    50% {
+      transform: translate(-50%, -50%) scale(1.15);
+      opacity: 1;
+      filter: blur(80px);
+    }
+  }
+
+  /* --- LOGO GLOW + SPIN --- */
   .logo-pulse {
-    animation: fadeIn 2.2s ease-out forwards, glowPulse 6s infinite ease-in-out, spin 18s linear infinite;
+    animation: fadeIn 2s ease-out forwards, glowPulse 5s infinite ease-in-out, spin 18s linear infinite;
     filter: drop-shadow(0 0 25px #b85cff) drop-shadow(0 0 45px #5f3cff);
     transform-origin: center center;
     transition: filter 0.5s ease, transform 0.5s ease;
   }
   .logo-pulse:hover {
     filter: drop-shadow(0 0 55px #d470ff) drop-shadow(0 0 90px #9a6cff);
-    transform: scale(1.05) rotate(2deg);
+    transform: scale(1.08) rotate(2deg);
   }
 
   @keyframes fadeIn {
@@ -231,12 +267,8 @@
   }
 
   @keyframes glowPulse {
-    0%, 100% {
-      filter: drop-shadow(0 0 25px #b85cff) drop-shadow(0 0 45px #5f3cff);
-    }
-    50% {
-      filter: drop-shadow(0 0 45px #9a6cff) drop-shadow(0 0 75px #7e52ff);
-    }
+    0%, 100% { filter: drop-shadow(0 0 25px #b85cff) drop-shadow(0 0 45px #5f3cff); }
+    50% { filter: drop-shadow(0 0 55px #d470ff) drop-shadow(0 0 90px #9a6cff); }
   }
 
   @keyframes spin {
