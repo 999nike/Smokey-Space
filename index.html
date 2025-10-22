@@ -351,13 +351,17 @@
   transform: rotateX(3deg) rotateY(0deg);
 }
 
-/* top face */
+/* top face (scaled to original size) */
 .logo {
   display: block;
+  width: 220px;              /* original .logo-pulse width */
+  max-width: 80vw;
   transform: translateZ(2px);
   border-radius: 14px;
-  box-shadow: 0 0 12px rgba(0,255,255,0.3),
-              0 4px 8px rgba(0,0,0,0.6);
+  box-shadow:
+    0 0 12px rgba(0,255,255,0.3),
+    0 4px 8px rgba(0,0,0,0.6);
+  margin: 0 auto;            /* keeps it centered */
 }
 
 /* rear face (4 mm thick base) */
