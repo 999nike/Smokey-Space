@@ -206,18 +206,33 @@
 </head>
 <body>
   <div class="logo-wrap" style="text-align:center; margin:35px 0; position:relative; perspective:800px;">
-    <!-- Tilt container -->
     <div class="tilt" style="display:inline-block; position:relative; transform-style:preserve-3d;">
       <!-- Halo -->
       <div class="halo"></div>
 
-      <!-- Electric arcs (SVG overlay) -->
+      <!-- Electric bolts -->
       <svg class="electric" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-        <g stroke="#9a6cff" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.6">
-          <path d="M100 100 Q120 70 140 60 T180 50" />
-          <path d="M100 100 Q80 70 60 40 T20 30" />
-          <path d="M100 100 Q130 120 150 150 T180 170" />
-          <path d="M100 100 Q70 120 50 160 T20 180" />
+        <defs>
+          <linearGradient id="boltGradient" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#00d5ff"/>
+            <stop offset="60%" stop-color="#007bff"/>
+            <stop offset="100%" stop-color="#b85cff"/>
+          </linearGradient>
+        </defs>
+        <g stroke="url(#boltGradient)" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.8">
+          <!-- 12 randomized lightning arcs -->
+          <path d="M100 100 L110 80 L130 70 L160 60" />
+          <path d="M100 100 L90 75 L60 60 L30 50" />
+          <path d="M100 100 L120 95 L150 90 L180 85" />
+          <path d="M100 100 L80 95 L50 90 L20 85" />
+          <path d="M100 100 L110 120 L130 140 L150 160" />
+          <path d="M100 100 L90 120 L70 150 L50 180" />
+          <path d="M100 100 L115 130 L135 160 L150 190" />
+          <path d="M100 100 L85 130 L65 160 L45 190" />
+          <path d="M100 100 L100 70 L100 50" />
+          <path d="M100 100 L100 130 L100 150" />
+          <path d="M100 100 L120 110 L150 115 L180 120" />
+          <path d="M100 100 L80 110 L50 115 L20 120" />
         </g>
       </svg>
 
@@ -227,110 +242,92 @@
            style="width:220px; z-index:2; position:relative; will-change:transform;">
     </div>
 
-    <!-- Label -->
     <h2 style="color:#bbaaff; font-weight:700; letter-spacing:2px; margin-top:12px; font-family:Inter, sans-serif;">
       W.I.Z.Z. LAB STUDIOS
     </h2>
   </div>
 
   <style>
-  /* --- HALO BACKDROP --- */
-  .halo {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 400px;
-    height: 400px;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    background: radial-gradient(circle, rgba(150,0,255,0.45) 0%, rgba(0,0,0,0) 70%);
-    filter: blur(60px);
-    animation: haloPulse 6s infinite ease-in-out;
-    z-index: 1;
+  /* --- HALO --- */
+  .halo{
+    position:absolute;left:50%;top:50%;
+    width:440px;height:440px;border-radius:50%;
+    transform:translate(-50%,-50%);
+    background:radial-gradient(circle,rgba(0,150,255,0.45)0%,rgba(0,0,0,0)70%);
+    filter:blur(65px);
+    animation:haloPulse 6s infinite ease-in-out;
+    z-index:1;
   }
-  @keyframes haloPulse {
-    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: .75; filter: blur(55px); }
-    50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; filter: blur(80px); }
+  @keyframes haloPulse{
+    0%,100%{transform:translate(-50%,-50%)scale(1);opacity:.7;filter:blur(55px)}
+    50%{transform:translate(-50%,-50%)scale(1.2);opacity:1;filter:blur(85px)}
   }
 
-  /* --- ELECTRIC ARCS --- */
-  .electric {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 260px;
-    height: 260px;
-    transform: translate(-50%, -50%);
-    z-index: 1;
-    animation: flicker 3s infinite ease-in-out;
+  /* --- ELECTRIC BOLTS --- */
+  .electric{
+    position:absolute;left:50%;top:calc(50% - 12px);
+    width:320px;height:320px;
+    transform:translate(-50%,-50%);
+    z-index:1;
   }
-  .electric path {
-    stroke-dasharray: 4;
-    animation: arcPulse 2s infinite linear;
+  .electric path{
+    stroke-dasharray:6;
+    stroke-dashoffset:0;
+    animation:boltFlicker var(--spd,2s) infinite linear;
+    filter:drop-shadow(0 0 6px #00bfff);
   }
-  @keyframes flicker {
-    0%, 100% { opacity: 0.5; }
-    50% { opacity: 0.9; }
-  }
-  @keyframes arcPulse {
-    0% { stroke-dashoffset: 0; }
-    100% { stroke-dashoffset: 12; }
+  @keyframes boltFlicker{
+    0%{stroke-dashoffset:0;opacity:.4}
+    25%{opacity:.9}
+    50%{stroke-dashoffset:10;opacity:.6}
+    75%{opacity:1}
+    100%{stroke-dashoffset:0;opacity:.5}
   }
 
   /* --- LOGO GLOW + SPIN --- */
-  .logo-pulse {
-    animation: fadeIn 2s ease-out forwards, glowPulse 5s infinite ease-in-out, spin 18s linear infinite;
-    filter: drop-shadow(0 0 25px #b85cff) drop-shadow(0 0 45px #5f3cff);
-    transform-origin: center center;
-    transition: filter 0.5s ease, transform 0.5s ease;
+  .logo-pulse{
+    animation:fadeIn 2s ease-out forwards,glowPulse 5s infinite ease-in-out,spin 18s linear infinite;
+    filter:drop-shadow(0 0 35px #00bfff)drop-shadow(0 0 60px #5f3cff);
+    transform-origin:center center;
+    transition:filter .5s ease,transform .5s ease;
   }
-  .logo-pulse:hover {
-    filter: drop-shadow(0 0 55px #d470ff) drop-shadow(0 0 90px #9a6cff);
-    transform: scale(1.08) rotate(2deg);
+  .logo-pulse:hover{
+    filter:drop-shadow(0 0 70px #4dc8ff)drop-shadow(0 0 100px #9a6cff);
+    transform:scale(1.08)rotate(2deg);
   }
+  @keyframes fadeIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+  @keyframes glowPulse{
+    0%,100%{filter:drop-shadow(0 0 35px #00bfff)drop-shadow(0 0 60px #5f3cff)}
+    50%{filter:drop-shadow(0 0 60px #4dc8ff)drop-shadow(0 0 100px #9a6cff)}
+  }
+  @keyframes spin{from{transform:rotateY(0deg)}to{transform:rotateY(360deg)}}
 
-  @keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.9); }
-    to { opacity: 1; transform: scale(1); }
-  }
-
-  @keyframes glowPulse {
-    0%, 100% { filter: drop-shadow(0 0 25px #b85cff) drop-shadow(0 0 45px #5f3cff); }
-    50% { filter: drop-shadow(0 0 55px #d470ff) drop-shadow(0 0 90px #9a6cff); }
-  }
-
-  @keyframes spin {
-    from { transform: rotateY(0deg); }
-    to { transform: rotateY(360deg); }
-  }
-
-  /* --- PARALLAX WRAP --- */
-  .logo-wrap { --tiltX: 0deg; --tiltY: 0deg; }
-  .tilt { transform: rotateX(var(--tiltX)) rotateY(var(--tiltY)); transition: transform 0.2s ease; }
+  /* --- PARALLAX --- */
+  .logo-wrap{--tiltX:0deg;--tiltY:0deg;}
+  .tilt{transform:rotateX(var(--tiltX))rotateY(var(--tiltY));transition:transform .2s ease;}
 
   /* --- RESPONSIVE --- */
-  @media (max-width: 768px) {
-    .halo { width: 260px; height: 260px; filter: blur(40px); top: 46%; }
-    .logo-pulse { width: 160px; animation-duration: 25s; }
-    .electric { width: 180px; height: 180px; }
-    h2 { font-size: 16px; letter-spacing: 1.5px; margin-top: 6px; }
+  @media(max-width:768px){
+    .halo{width:280px;height:280px;filter:blur(40px);}
+    .logo-pulse{width:160px;animation-duration:25s;}
+    .electric{width:200px;height:200px;}
+    h2{font-size:16px;letter-spacing:1.5px;margin-top:6px;}
   }
   </style>
 
   <script>
-  // Parallax tilt
+  // Parallax + random bolt speeds
   (function(){
-    const wrap = document.querySelector('.logo-wrap');
-    const max = 20;
-    function setTilt(x, y){
-      wrap.style.setProperty('--tiltY', (x*max)+'deg');
-      wrap.style.setProperty('--tiltX', (-y*max)+'deg');
-    }
-    document.addEventListener('mousemove', e=>{
-      const x = e.clientX / window.innerWidth - 0.5;
-      const y = e.clientY / window.innerHeight - 0.5;
-      setTilt(x, y);
-    }, {passive:true});
+    const wrap=document.querySelector('.logo-wrap');
+    const bolts=document.querySelectorAll('.electric path');
+    bolts.forEach(b=>b.style.setProperty('--spd',(1.8+Math.random()*1.4)+'s'));
+    const max=20;
+    document.addEventListener('mousemove',e=>{
+      const x=e.clientX/window.innerWidth-.5;
+      const y=e.clientY/window.innerHeight-.5;
+      wrap.style.setProperty('--tiltY',(x*max)+'deg');
+      wrap.style.setProperty('--tiltX',(-y*max)+'deg');
+    },{passive:true});
   })();
   </script>
 </body>
