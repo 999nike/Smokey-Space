@@ -253,7 +253,22 @@
     animation: haloPulse 6s infinite ease-in-out;
     z-index: 1;
   }
-
+/* --- SOFT PURPLE BACK HALO (Restored Ambient Layer) --- */
+.purple-halo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 480px;
+  height: 480px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle,
+    rgba(180, 100, 255, 0.3) 0%,
+    rgba(60, 0, 120, 0.0) 75%);
+  filter: blur(120px);
+  z-index: 0; /* behind halo/electric, above background */
+  pointer-events: none;
+}
+    
   @keyframes haloPulse {
     0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.75; }
     50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
