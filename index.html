@@ -209,8 +209,23 @@
     <div class="halo"></div>
     <div class="electric"></div>
 
-    <img src="wizzlab_logo.png" alt="W.I.Z.Z. Lab Studios"
-         class="logo-pulse">
+    <div class="logo-wrapper">
+  <div class="chip">
+    <img class="logo" src="wizzlab_logo.png" alt="W.I.Z.Z. Core" />
+    <svg class="trace-overlay" viewBox="0 0 300 300" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="traceGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#0ff" stop-opacity="0.6"/>
+          <stop offset="100%" stop-color="#0ff" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <path d="M5,5 L295,5 L295,295 L5,295 Z
+               M20,150 L150,20 L280,150 L150,280 Z"
+            stroke="url(#traceGlow)" stroke-width="1"
+            fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  </div>
+</div>
 
     <h2>W.I.Z.Z. LAB STUDIOS</h2>
   </div>
