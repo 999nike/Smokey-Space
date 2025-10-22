@@ -205,15 +205,15 @@
   </style>
 </head>
 <body>
-  <div style="text-align:center; margin:35px 0; position:relative;">
+  <div class="logo-wrap" style="text-align:center; margin:35px 0; position:relative; perspective:800px;">
     <!-- Halo -->
     <div class="halo"></div>
 
     <!-- Logo -->
     <img src="wizzlab_logo.png" alt="W.I.Z.Z. Lab Studios"
          class="logo-pulse"
-         style="width:220px; z-index:2; position:relative;">
-    
+         style="width:220px; z-index:2; position:relative; will-change:transform;">
+
     <!-- Label -->
     <h2 style="color:#bbaaff; font-weight:700; letter-spacing:2px; margin-top:12px; font-family:Inter, sans-serif;">
       W.I.Z.Z. LAB STUDIOS
@@ -249,7 +249,7 @@
     }
   }
 
-  /* --- LOGO GLOW + SPIN --- */
+  /* --- LOGO GLOW + SPIN + PARALLAX --- */
   .logo-pulse {
     animation: fadeIn 2s ease-out forwards, glowPulse 5s infinite ease-in-out, spin 18s linear infinite;
     filter: drop-shadow(0 0 25px #b85cff) drop-shadow(0 0 45px #5f3cff);
@@ -275,7 +275,22 @@
     from { transform: rotateY(0deg); }
     to { transform: rotateY(360deg); }
   }
+
+  /* --- PARALLAX HOVER EFFECT --- */
+  body:hover .logo-pulse {
+    transform: rotateY(var(--rotateY, 0deg)) rotateX(var(--rotateX, 0deg)) scale(1.05);
+  }
   </style>
+
+  <script>
+  // Simple 3D illusion (mouse move)
+  document.addEventListener("mousemove", e => {
+    const x = e.clientX / window.innerWidth - 0.5;
+    const y = e.clientY / window.innerHeight - 0.5;
+    document.body.style.setProperty("--rotateY", `${x * 30}deg`);
+    document.body.style.setProperty("--rotateX", `${-y * 30}deg`);
+  });
+  </script>
 </body>
   <div class="app">
 
