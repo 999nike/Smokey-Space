@@ -12,8 +12,8 @@
   <style>
     :root{
       --bg: #0b0f1a;
-      --panel: #101626;
-      --panel-2: #0e1422;
+      --panel: rgba(16, 22, 38, 0.55);
+      --panel-2: rgba(14, 20, 34, 0.35);
       --text: #e7eefc;
       --muted: #8ea3c7;
       --brand: #7dd3fc;
@@ -38,7 +38,19 @@
       --border: 1px solid rgba(10,20,40,0.08);
       color-scheme: light;
     }
+  .light-theme {
+  --panel: rgba(255,255,255,0.55);
+  --panel-2: rgba(255,255,255,0.35);
+}
 
+.light-theme .card,
+.light-theme aside,
+.light-theme main {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.25);
+}
+    
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
