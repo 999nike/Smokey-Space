@@ -4,117 +4,90 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>AI Army • Cinematic Pitch</title>
-
-<!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;800&display=swap" rel="stylesheet">
-
 <style>
-  :root{
-    --text:#e7eefc;
-    --muted:#9fb0d2;
-    --accent:#7cf0ff;
+  :root {
+    --text: #e7eefc;
+    --muted: #9fb0d2;
+    --accent: #7cf0ff;
   }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: #060914; color: var(--text); font-family: Inter, system-ui, sans-serif; }
 
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{
-    height:100%;
-    background:#060914;
-    color:var(--text);
-    font-family:Inter,system-ui,sans-serif;
-    overflow-x:hidden;
-    scroll-behavior:smooth;
+  .scene {
+    position: relative;
+    min-height: 100dvh;
+    display: grid;
+    place-items: center;
+    scroll-snap-align: start;
+    overflow: hidden;
   }
-
-  /* ---- Scene Blocks ---- */
-  .scene{
-    position:relative;
-    min-height:100vh;
-    display:grid;
-    place-items:center;
+  .bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.55) saturate(1.1);
+    opacity: 0;
+    transition: opacity 1s ease;
   }
-  video.bg{
-    position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    filter:brightness(.55) saturate(1.1);
+  .scene.active .bg { opacity: 1; }
+  .veil {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(120% 120% at 50% 50%, #0000, #0008);
   }
-  .veil{
-    position:absolute;
-    inset:0;
-    background:radial-gradient(120% 120% at 50% 50%, #0000, #0008);
+  .content {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+    padding: 24px;
+    text-align: center;
   }
-  .content{
-    position:relative;
-    z-index:2;
-    max-width:900px;
-    padding:24px;
-    text-align:center;
+  h1 { font-size: clamp(28px, 4.6vw, 56px); margin: 0 0 10px; }
+  p { color: var(--muted); font-size: clamp(14px, 2.1vw, 18px); margin: 0 auto 18px; }
+  .kpis { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+  .chip {
+    border: 1px solid #ffffff33;
+    border-radius: 999px;
+    padding: 8px 12px;
+    background: #ffffff0a;
   }
-
-  h1{
-    font-size:clamp(28px,4.6vw,56px);
-    margin-bottom:10px;
+  .cta {
+    display: inline-block;
+    padding: 12px 18px;
+    border-radius: 12px;
+    border: 1px solid #5eead4aa;
+    background: linear-gradient(180deg, #7cf0ff33, #0000);
+    color: var(--text);
+    font-weight: 800;
+    text-decoration: none;
   }
-  p{
-    color:var(--muted);
-    font-size:clamp(14px,2.1vw,18px);
-    margin-bottom:18px;
+  .nav {
+    position: fixed;
+    inset: auto 0 18px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    pointer-events: none;
+    z-index: 10;
   }
-
-  .kpis{
-    display:flex;
-    gap:14px;
-    flex-wrap:wrap;
-    justify-content:center;
-  }
-  .chip{
-    border:1px solid #ffffff33;
-    border-radius:999px;
-    padding:8px 12px;
-    background:#ffffff0a;
-  }
-
-  .cta{
-    display:inline-block;
-    padding:12px 18px;
-    border-radius:12px;
-    border:1px solid #5eead4aa;
-    background:linear-gradient(180deg,#7cf0ff33,#0000);
-    color:var(--text);
-    font-weight:800;
-    text-decoration:none;
-  }
-
-  /* ---- Navigation ---- */
-  .nav{
-    position:fixed;
-    bottom:18px;
-    left:0;
-    right:0;
-    display:flex;
-    justify-content:center;
-    gap:10px;
-    pointer-events:none;
-  }
-  .btn{
-    pointer-events:auto;
-    cursor:pointer;
-    border:1px solid #ffffff33;
-    background:#0b1020cc;
-    color:var(--text);
-    padding:10px 14px;
-    border-radius:12px;
+  .btn {
+    pointer-events: auto;
+    cursor: pointer;
+    border: 1px solid #ffffff33;
+    background: #0b1020cc;
+    color: var(--text);
+    padding: 10px 14px;
+    border-radius: 12px;
   }
 </style>
 </head>
-
 <body>
 
-<!-- === Scene 1 === -->
 <section class="scene" data-scene="1">
-  <video class="bg" src="media/problem.mp4" muted autoplay loop playsinline></video>
+  <video class="bg" src="media/problem.mp4" type="video/mp4" muted autoplay loop playsinline></video>
   <div class="veil"></div>
   <div class="content">
     <h1>Automation is scattered.<br>Time leaks.</h1>
@@ -127,9 +100,8 @@
   </div>
 </section>
 
-<!-- === Scene 2 === -->
 <section class="scene" data-scene="2">
-  <video class="bg" src="media/network.mp4" muted loop playsinline preload="none"></video>
+  <video class="bg" src="media/network.mp4" type="video/mp4" muted autoplay loop playsinline preload="none"></video>
   <div class="veil"></div>
   <div class="content">
     <h1>The AI Army</h1>
@@ -142,9 +114,8 @@
   </div>
 </section>
 
-<!-- === Scene 3 === -->
 <section class="scene" data-scene="3">
-  <video class="bg" src="media/results.mp4" muted loop playsinline preload="none"></video>
+  <video class="bg" src="media/results.mp4" type="video/mp4" muted autoplay loop playsinline preload="none"></video>
   <div class="veil"></div>
   <div class="content">
     <h1>Results that compound</h1>
@@ -157,9 +128,8 @@
   </div>
 </section>
 
-<!-- === Scene 4 === -->
 <section class="scene" data-scene="4">
-  <video class="bg" src="media/cta.mp4" muted loop playsinline preload="none"></video>
+  <video class="bg" src="media/cta.mp4" type="video/mp4" muted autoplay loop playsinline preload="none"></video>
   <div class="veil"></div>
   <div class="content">
     <h1>Join the orbit</h1>
@@ -168,33 +138,38 @@
   </div>
 </section>
 
-<!-- === Navigation Buttons === -->
 <div class="nav">
   <button class="btn" id="prev">←</button>
   <button class="btn" id="next">→</button>
 </div>
 
 <script>
-  const scenes=[...document.querySelectorAll('.scene')];
-  let i=0;
-  function go(n){
-    i=Math.max(0,Math.min(n,scenes.length-1));
-    scenes[i].scrollIntoView({behavior:'smooth'});
-    scenes.forEach((s,idx)=>{
-      const v=s.querySelector('video');
-      if(idx===i){ v.play().catch(()=>{}); } else { v.pause(); }
+  const scenes = [...document.querySelectorAll('.scene')];
+  let i = 0;
+
+  function go(n) {
+    i = Math.max(0, Math.min(n, scenes.length - 1));
+    scenes[i].scrollIntoView({ behavior: 'smooth' });
+    scenes.forEach((s, idx) => {
+      const v = s.querySelector('video');
+      if (v) {
+        if (idx === i) { v.play().catch(() => {}); s.classList.add('active'); }
+        else { v.pause(); s.classList.remove('active'); }
+      }
     });
   }
-  document.getElementById('next').onclick=()=>go(i+1);
-  document.getElementById('prev').onclick=()=>go(i-1);
-  document.addEventListener('keydown',e=>{
-    if(e.key==='ArrowRight') go(i+1);
-    if(e.key==='ArrowLeft') go(i-1);
+
+  document.getElementById('next').onclick = () => go(i + 1);
+  document.getElementById('prev').onclick = () => go(i - 1);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') go(i + 1);
+    if (e.key === 'ArrowLeft') go(i - 1);
   });
-  document.body.addEventListener('click',e=>{
-    if(!e.target.closest('.btn,.cta')) go(i+1);
+  document.body.addEventListener('click', e => {
+    if (!e.target.closest('.btn,.cta')) go(i + 1);
   });
   go(0);
 </script>
 </body>
 </html>
+
