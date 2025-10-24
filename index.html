@@ -205,6 +205,28 @@
   </style>
 </head>
 <body>
+  <!-- === Background video === -->
+<video id="bgVideo" autoplay muted loop playsinline src="media/network.mp4"></video>
+
+<style>
+#bgVideo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -1;
+  filter: brightness(0.25) saturate(1.3);
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(120% 120% at 50% 50%, #0000, #0006);
+  z-index: -1;
+}
+</style>
   <div class="wizz-lab">
     <div class="halo"></div>
     <div class="electric"></div>
