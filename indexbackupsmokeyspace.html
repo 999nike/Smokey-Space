@@ -1,0 +1,753 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Smokey’s Space — Command Center</title>
+  <meta name="description" content="Smokey’s Space: central hub for Wizz projects, links, notes, and experiments." />
+
+  <!-- Optional font; safe if offline too -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg: #0b0f1a;
+      --panel: rgba(16, 22, 38, 0.55);
+      --panel-2: rgba(14, 20, 34, 0.35);
+      --text: #e7eefc;
+      --muted: #8ea3c7;
+      --brand: #7dd3fc;
+      --accent: #a78bfa;
+      --ok: #34d399;
+      --warn: #fbbf24;
+      --danger:#fb7185;
+      --border: 1px solid rgba(255,255,255,0.08);
+      --shadow: 0 10px 30px rgba(0,0,0,.45);
+      --radius: 14px;
+      --radius-sm: 10px;
+      color-scheme: dark;
+    }
+    .light {
+      --bg: rgba(255,255,255,0.05);
+      --panel: rgba(255,255,255,0.55);
+      --panel-2: rgba(255,255,255,0.35);
+      --text:#172036;
+      --muted:#51607b;
+      --brand:#0284c7;
+      --accent:#6d28d9;
+      --border: 1px solid rgba(10,20,40,0.08);
+      color-scheme: light;
+    }
+  .light-theme {
+  --panel: rgba(255,255,255,0.55);
+  --panel-2: rgba(255,255,255,0.35);
+}
+
+.light-theme .card,
+.light-theme aside,
+.light-theme main {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.25);
+}
+    
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, #1c2b4a55, transparent 60%),
+        radial-gradient(1000px 600px at 120% 10%, #3b1d6a55, transparent 60%),
+        var(--bg);
+      background-attachment: fixed;
+      letter-spacing:.2px;
+
+/* Galaxy Scrollbar Theme */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #060914;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #7f00ff, #e100ff);
+  border-radius: 8px;
+  box-shadow: 0 0 6px #9b4dff88;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #9b4dff, #ff7fff);
+}
+}
+    .app{
+      display:grid;
+      grid-template-columns: 280px 1fr;
+      min-height:100dvh;
+    }
+    /* Sidebar */
+    aside{
+      border-right: var(--border);
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      padding:20px 18px;
+      position:sticky; top:0; height:100dvh;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      margin-bottom:22px;
+    }
+    .brand .logo{
+      width:42px;height:42px;border-radius:12px;
+      background: radial-gradient(120% 120% at 20% 10%, #3b82f655, transparent 40%), #0ea5e9;
+      box-shadow: inset 0 0 20px #ffffff22, 0 8px 18px #0ea5e933;
+    }
+    .brand h1{
+      margin:0; font-size:18px; font-weight:800; line-height:1.2;
+    }
+    .tag{font-size:12px; color:var(--muted)}
+    nav{margin-top:8px}
+    .nav{
+      display:grid; gap:8px; margin:12px 0 20px;
+    }
+    .nav a{
+      text-decoration:none; color:var(--text);
+      padding:10px 12px; border-radius:12px; border:var(--border);
+      display:flex; align-items:center; gap:10px;
+      background: linear-gradient(180deg, #ffffff05, #00000000);
+    }
+    .nav a:hover{background:#ffffff0a}
+    .chip{
+      font-size:11px; padding:3px 8px; border-radius:999px; border:var(--border);
+      color:var(--muted);
+    }
+    .quick{
+      margin-top:12px; display:grid; gap:8px;
+    }
+    .quick a{
+      font-size:14px; color:var(--brand); text-decoration:none;
+    }
+    .quick a:hover{text-decoration:underline}
+
+    /* Main */
+    main{padding:22px 22px 40px}
+    .topbar{
+      display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap;
+    }
+    .search{
+      flex:1; min-width:240px;
+      display:flex; gap:10px; align-items:center;
+      background: var(--panel);
+      border:var(--border); border-radius:12px; padding:10px 12px;
+      box-shadow: var(--shadow);
+    }
+    .search input{
+      flex:1; background:transparent; border:0; outline:none; color:var(--text); font-size:14px;
+    }
+    .actions{display:flex; gap:10px}
+    .btn{
+      border:var(--border); background:linear-gradient(180deg,#ffffff0a,#0000);
+      color:var(--text); padding:10px 12px; border-radius:12px; font-weight:600; cursor:pointer;
+    }
+    .btn.primary{background:linear-gradient(180deg,#38bdf855,#38bdf81a); border-color:#38bdf833}
+    .btn.ghost{background:transparent}
+
+    .grid{
+      display:grid; gap:16px; margin-top:18px;
+      grid-template-columns: repeat(12, 1fr);
+    }
+    .card{
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      border:var(--border); border-radius:var(--radius);
+      box-shadow: var(--shadow);
+      padding:16px;
+    }
+    .card h3{margin:0 0 10px; font-size:16px}
+    .muted{color:var(--muted); font-size:13px}
+
+    /* Tiles */
+    .kpis{grid-column: span 12; display:grid; gap:12px; grid-template-columns: repeat(4, 1fr);}
+    .kpi{
+      border-radius:14px; padding:14px 16px; border:var(--border);
+      background: linear-gradient(180deg, #ffffff08, #0000);
+    }
+    .kpi .label{font-size:12px; color:var(--muted)}
+    .kpi .value{font-size:22px; font-weight:800; margin-top:6px}
+    .kpi.ok .value{color:var(--ok)}
+    .kpi.warn .value{color:var(--warn)}
+    .kpi.brand .value{color:var(--brand)}
+
+    /* Projects */
+    .projects{grid-column: span 8}
+    .pgrid{display:grid; gap:12px; grid-template-columns: repeat(2, 1fr)}
+    .project{
+      padding:14px; border-radius:12px; border:var(--border); background:linear-gradient(180deg,#ffffff07,#0000);
+      display:grid; gap:8px;
+    }
+    .project h4{margin:0;font-size:15px}
+    .project .tags{display:flex; gap:8px; flex-wrap:wrap}
+    .tag-dot{width:8px;height:8px;border-radius:50%}
+    .row{display:flex; gap:10px; align-items:center; justify-content:space-between}
+    .project .btn-sm{
+      padding:8px 10px; border-radius:10px; border:var(--border); background:#ffffff08; font-size:13px; color:var(--text); text-decoration:none;
+    }
+    .project .btn-sm:hover{background:#ffffff12}
+
+    /* Notes & Links */
+    .links{grid-column: span 4}
+    .list{display:grid; gap:10px}
+    .list a{color:var(--brand); text-decoration:none}
+    .list a:hover{text-decoration:underline}
+
+    .notes{grid-column: span 8}
+    .scratch{
+      display:grid; gap:10px;
+    }
+    textarea{
+      width:100%; min-height:160px; resize:vertical;
+      border-radius:12px; border:var(--border); background:var(--panel); color:var(--text); padding:12px; font-size:14px;
+      box-shadow: var(--shadow);
+    }
+
+    .timeline{grid-column: span 4}
+    .timeitem{padding:10px 12px; border-left:3px solid #ffffff1a; background:linear-gradient(90deg,#ffffff06,#0000); border-radius:8px; margin-bottom:10px}
+    .timeitem small{color:var(--muted)}
+
+    footer{
+      margin-top:20px; padding:16px; border-top:var(--border); color:var(--muted); font-size:12px;
+    }
+
+    /* Responsiveness */
+    @media (max-width: 1060px){
+      .app{grid-template-columns: 1fr}
+      aside{position:static; height:auto; border-right:0; border-bottom:var(--border)}
+    }
+    @media (max-width: 860px){
+      .kpis{grid-template-columns: repeat(2, 1fr)}
+      .projects{grid-column: span 12}
+      .links{grid-column: span 12}
+      .notes{grid-column: span 12}
+      .timeline{grid-column: span 12}
+      .pgrid{grid-template-columns: 1fr}
+    }
+  </style>
+</head>
+<body>
+  <!-- === Background video === -->
+<video id="bgVideo" autoplay muted loop playsinline src="media/network.mp4"></video>
+
+<style>
+#bgVideo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -1;
+  filter: brightness(0.25) saturate(1.3);
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(120% 120% at 50% 50%, #0000, #0006);
+  z-index: -1;
+}
+</style>
+  <div class="wizz-lab">
+    <div class="halo"></div>
+    <div class="electric"></div>
+
+    <div class="logo-wrapper">
+  <div class="chip">
+    <img class="logo" src="wizzlab_logo.png" alt="W.I.Z.Z. Core" />
+    <svg class="trace-overlay" viewBox="0 0 300 300" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="traceGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#0ff" stop-opacity="0.6"/>
+          <stop offset="100%" stop-color="#0ff" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <path d="M5,5 L295,5 L295,295 L5,295 Z
+               M20,150 L150,20 L280,150 L150,280 Z"
+            stroke="url(#traceGlow)" stroke-width="1"
+            fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  </div>
+</div>
+
+    <h2>W.I.Z.Z. LAB STUDIOS</h2>
+  </div>
+
+  <style>
+  /* --- BASE WRAPPER --- */
+  .wizz-lab {
+    text-align: center;
+    margin: 45px 0;
+    position: relative;
+    perspective: 800px;
+  }
+
+  /* --- HALO BACKDROP --- */
+  .halo {
+    position: absolute;
+    left: 50%;
+    top: calc(50% - 6px);
+    width: 420px;
+    height: 420px;
+    background: radial-gradient(circle, rgba(77,250,255,0.35) 0%, rgba(0,0,0,0) 70%);
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    filter: blur(60px);
+    animation: haloPulse 6s infinite ease-in-out;
+    z-index: 1;
+  }
+/* --- SOFT PURPLE BACK HALO (Restored Ambient Layer) --- */
+.purple-halo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 480px;
+  height: 480px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle,
+    rgba(180, 100, 255, 0.3) 0%,
+    rgba(60, 0, 120, 0.0) 75%);
+  filter: blur(120px);
+  z-index: 0; /* behind halo/electric, above background */
+  pointer-events: none;
+}
+ /* --- STACK FIX --- */
+.wizz-lab { position: relative; }
+.purple-halo { z-index: 1; }           /* ambient purple wash  */
+.electric-layer { z-index: 2; }        /* optional spinning arcs */
+.halo { z-index: 3 !important; }       /* blue halo backdrop    */
+.logo-wrapper, .chip, .logo, .logo-pulse { position: relative; z-index: 4; }   
+    
+  @keyframes haloPulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.75; }
+    50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+  }
+
+  /* --- ELECTRIC LINES --- */
+  .electric::before,
+  .electric::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 300px;
+    height: 300px;
+    background: conic-gradient(from 0deg, transparent 0deg 20deg, rgba(0,180,255,0.35) 40deg 60deg, transparent 80deg 360deg);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) rotate(0deg);
+    filter: blur(10px);
+    animation: electricFlow 4s infinite linear, electricFlicker 0.25s infinite alternate;
+    z-index: 0;
+  }
+  .electric::after {
+    transform: translate(-50%, -50%) rotate(90deg);
+    animation-delay: 1s;
+  }
+
+  @keyframes electricFlow {
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+  @keyframes electricFlicker {
+    0% { opacity: 0.8; filter: blur(6px); }
+    50% { opacity: 1; filter: blur(3px); }
+    100% { opacity: 0.6; filter: blur(8px); }
+  }
+
+  /* --- LOGO --- */
+  .logo-pulse {
+    width: 220px;
+    z-index: 2;
+    position: relative;
+    animation: fadeIn 2s ease-out forwards, glowPulse 5s infinite ease-in-out, spin 18s linear infinite;
+    filter: drop-shadow(0 0 25px #00ccff) drop-shadow(0 0 45px #0077ff);
+    transform-origin: center center;
+    transition: filter 0.5s ease, transform 0.5s ease;
+  }
+  .logo-pulse:hover {
+    filter: drop-shadow(0 0 65px #4dfaff) drop-shadow(0 0 95px #00ccff);
+    transform: scale(1.08) rotate(2deg);
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes glowPulse {
+    0%, 100% { filter: drop-shadow(0 0 25px #00ccff) drop-shadow(0 0 45px #0077ff); }
+    50% { filter: drop-shadow(0 0 55px #4dfaff) drop-shadow(0 0 90px #00ccff); }
+  }
+
+  @keyframes spin {
+    from { transform: rotateY(0deg); }
+    to { transform: rotateY(360deg); }
+  }
+
+  /* --- LABEL --- */
+  .wizz-lab h2 {
+    color: #bbaaff;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-top: 12px;
+    font-family: Inter, sans-serif;
+  }
+
+  /* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+  .logo-pulse { width: 150px; }
+  .halo { width: 280px; height: 280px; }
+  .electric::before, .electric::after { width: 200px; height: 200px; }
+}
+
+/* ---- PATCH 2.3 CLEAN : Core-on-Chip Depth + Glow ---- */
+.logo-wrapper {
+  perspective: 900px;
+  animation: coreSpin 14s linear infinite;
+  display: inline-block;
+  transform-origin: center;
+  z-index: 2;
+}
+
+@keyframes coreSpin {
+  0%   { transform: rotateY(0deg); }
+  100% { transform: rotateY(360deg); }
+}
+
+.chip {
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateX(3deg) rotateY(0deg);
+  scale: 0.75;
+  z-index: 2;
+}
+
+/* top face (scaled to original size) */
+.logo {
+  display: block;
+  width: 220px;
+  max-width: 80vw;
+  transform: translateZ(2px);
+  border-radius: 14px;
+  box-shadow:
+  0 0 12px rgba(0,255,255,0.35),
+  0 0 25px rgba(0,255,255,0.25),
+  0 4px 8px rgba(0,0,0,0.6);
+  margin: 0 auto;
+}
+
+/* rear face (4 mm thick base) */
+.chip::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(145deg,#1a1a1a,#000);
+  transform: translateZ(-4px);
+  border-radius: 14px;
+  box-shadow:
+    inset 0 0 6px rgba(0,255,255,0.1),
+    0 6px 10px rgba(0,0,0,0.6);
+}
+
+/* faint rim glow (fixed) */
+.chip::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 14px;
+  background: radial-gradient(circle at center,
+    rgba(0,255,255,0.3) 0%,
+    rgba(0,255,255,0.1) 60%,
+    transparent 80%);
+  transform: translateZ(-2px);
+  box-shadow:
+    0 0 12px #00ff44,
+    0 0 30px rgba(0,255,64,0.6),
+    inset 0 0 8px rgba(255,255,100,0.3);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* soft etched circuit aura (no diamond) */
+.trace-overlay {
+  position: absolute;
+  inset: 0;
+  transform: translateZ(2.1px);
+  opacity: 0.35;
+  animation: pulseTraces 6s ease-in-out infinite;
+}
+
+@keyframes pulseTraces {
+  0%,100% { opacity: 0.25; filter: blur(0px); }
+  50%     { opacity: 0.65;  filter: blur(1px); }
+}
+
+/* make sure halo glows above chip */
+.halo {
+  z-index: 3;
+}
+</style>
+
+<script>
+// --- LIGHT CRACKLE INTENSITY JITTER ---
+setInterval(() => {
+  const el = document.querySelector('.electric');
+  if (el) el.style.opacity = 0.7 + Math.random() * 0.3;
+}, 120);
+</script>
+</body>
+  <div class="app">
+
+    <aside>
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>Smokey’s Space</h1>
+          <div class="tag">DevMaster • Wizz Commander</div>
+        </div>
+      </div>
+
+      <nav>
+        <div class="nav">
+          <a href="#overview">🏠 Overview</a>
+          <a href="#projects">🛠️ Projects</a>
+          <a href="mining.html">⛏️ Mining</a>
+          <a href="#notes">📝 Notes</a>
+          <a href="#links">🔗 Links</a>
+        </div>
+      </nav>
+
+      <div class="quick">
+      <div class="tag">Quick Links</div>
+     <a href="https://cloud-w-i-z-z.vercel.app/" target="_blank">⚡ Cloud Wizz Online</a>
+     <a href="AI-Index.html" target="_blank">🚀 AI Army Sales Page</a>
+     <a href="pitch.html" target="_blank">🎬 AI Army Pitch</a>
+     <a href="https://vercel.com/dashboard" target="_blank">🧭 Vercel Dashboard</a>
+     <a href="https://github.com/999nike" target="_blank">🐙 GitHub /999nike</a>
+ </div>
+    </aside>
+
+    <main>
+      <div class="topbar">
+        <div class="search">
+          <span>🔎</span>
+          <input id="search" placeholder="Search notes, projects, or type a command (e.g. 'new note: …')" />
+        </div>
+        <div class="actions">
+          <button class="btn ghost" id="themeBtn">🌗 Theme</button>
+          <button class="btn primary" onclick="location.reload()">🔁 Refresh</button>
+          <button class="btn ghost" id="fsBtn">🖥️ Fullscreen</button>
+        </div>
+      </div>
+
+      <section id="overview" class="grid">
+        <!-- KPI tiles -->
+        <div class="kpis card">
+          <div class="kpi brand">
+            <div class="label">Active Projects</div>
+            <div class="value" id="kpi-projects">3</div>
+            <div class="muted">Linked on this hub</div>
+          </div>
+          <div class="kpi ok">
+            <div class="label">Deploys (24h)</div>
+            <div class="value">+2</div>
+            <div class="muted">Vercel</div>
+          </div>
+          <div class="kpi warn">
+            <div class="label">Open TODOs</div>
+            <div class="value" id="kpi-todos">5</div>
+            <div class="muted">Notes section</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Local Time</div>
+            <div class="value" id="clock">--:--</div>
+            <div class="muted">Commander’s clock</div>
+          </div>
+        </div>
+
+        <!-- Projects -->
+        <div id="projects" class="projects card">
+          <h3>Projects</h3>
+          <div class="pgrid">
+            <div class="project">
+              <div class="row">
+                <h4>Cloud Wizz Online</h4>
+                <a class="btn-sm" href="https://cloud-w-i-z-z.vercel.app/" target="_blank">Open</a>
+              </div>
+              <div class="muted">Live chat • memory • voice-ready • hosted on Vercel.</div>
+              <div class="tags">
+                <span class="tag">prod</span><span class="tag">vercel</span><span class="tag">js</span>
+              </div>
+            </div>
+
+            <div class="project">
+              <div class="row">
+                <h4>AI Army Sales</h4>
+                <!-- patched to local page -->
+                <a class="btn-sm" href="AI-Index.html" target="_blank">Open</a>
+              </div>
+              <div class="muted">Landing page with strong CTAs, hero, features, pricing.</div>
+              <div class="tags"><span class="tag">marketing</span><span class="tag">html+css</span></div>
+            </div>
+
+            <div class="project">
+              <div class="row">
+                <h4>Sandbox & Demos</h4>
+                <a class="btn-sm" href="#" target="_blank">Soon</a>
+              </div>
+              <div class="muted">Small test apps (weather, unit toggles, loaders). Great for training baby Wizz’s.</div>
+              <div class="tags"><span class="tag">lab</span><span class="tag">experiments</span></div>
+            </div>
+
+            <div class="project">
+              <div class="row">
+                <h4>Smokey’s Notes Site</h4>
+                <a class="btn-sm" href="#" target="_blank">Soon</a>
+              </div>
+              <div class="muted">Lightweight blog/wiki for plans, rules, and playbooks.</div>
+              <div class="tags"><span class="tag">docs</span><span class="tag">markdown</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Links -->
+        <div id="links" class="links card">
+          <h3>Pinned Links</h3>
+          <div class="list">
+            <a target="_blank" href="https://vercel.com/new">➕ New Vercel Project</a>
+            <a target="_blank" href="https://dashboard.openai.com/">🧠 OpenAI Dashboard</a>
+            <a target="_blank" href="https://fonts.google.com/">🔤 Google Fonts</a>
+            <a target="_blank" href="https://lucide.dev/icons/">✨ Lucide Icons</a>
+          </div>
+        </div>
+
+        <!-- Notes -->
+        <div id="notes" class="notes card">
+          <h3>Scratchpad</h3>
+          <div class="muted">Quick notes save in your browser (local only).</div>
+          <div class="scratch">
+            <textarea id="pad" placeholder="Ideas, todos, deployment notes…"></textarea>
+            <div class="row">
+              <button class="btn" id="clearPad">🧹 Clear</button>
+              <span class="muted" id="saveState">Saved.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="timeline card">
+          <h3>Activity</h3>
+          <div class="timeitem">
+            <strong>Deployed Smokey’s Space</strong><br/>
+            <small>Just now • Vercel</small>
+          </div>
+          <div class="timeitem">
+            <strong>Linked AI Army Sales page</strong><br/>
+            <small>Earlier today</small>
+          </div>
+          <div class="timeitem">
+            <strong>Cloud Wizz Online: passed 20 tests</strong><br/>
+            <small>Yesterday</small>
+          </div>
+        </div>
+      </section>
+
+      <footer class="muted">
+        © <span id="year"></span> Smokey • Built with 💙 by Wizz
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    // Theme toggle
+    const themeBtn = document.getElementById('themeBtn');
+    themeBtn.addEventListener('click', ()=>{
+      document.body.classList.toggle('light');
+      localStorage.setItem('smokey_theme', document.body.classList.contains('light') ? 'light' : 'dark');
+    });
+    const savedTheme = localStorage.getItem('smokey_theme');
+    if(savedTheme === 'light') document.body.classList.add('light');
+
+    // Live clock
+    function tick(){
+      const d = new Date();
+      const hh = d.getHours().toString().padStart(2,'0');
+      const mm = d.getMinutes().toString().padStart(2,'0');
+      document.getElementById('clock').textContent = `${hh}:${mm}`;
+    }
+    tick(); setInterval(tick, 15000);
+
+    // Scratchpad (localStorage)
+    const pad = document.getElementById('pad');
+    const saveKey = 'smokey_pad_v1';
+    const saveState = document.getElementById('saveState');
+    pad.value = localStorage.getItem(saveKey) || '';
+    let t;
+    pad.addEventListener('input', ()=>{
+      clearTimeout(t);
+      saveState.textContent = 'Saving…';
+      t = setTimeout(()=>{
+        localStorage.setItem(saveKey, pad.value);
+        saveState.textContent = 'Saved.';
+        // Lightweight TODO counter based on "- [ ]" or "•"
+        const todos = (pad.value.match(/(^|\n)\s*(?:- \[ \]|•|-)/g) || []).length;
+        document.getElementById('kpi-todos').textContent = todos;
+      }, 300);
+    });
+    document.getElementById('clearPad').onclick = ()=>{
+      if(confirm('Clear your scratchpad? This only affects this browser.')){
+        pad.value = ''; localStorage.removeItem(saveKey); saveState.textContent = 'Cleared.';
+        document.getElementById('kpi-todos').textContent = '0';
+      }
+    };
+
+    // Simple command palette in search
+    const search = document.getElementById('search');
+    search.addEventListener('keydown', (e)=>{
+      if(e.key === 'Enter'){
+        const v = search.value.trim();
+        if(/^new note:/i.test(v)){
+          pad.value = (pad.value ? pad.value + "\n\n" : "") + v.replace(/^new note:\s*/i,'');
+          pad.dispatchEvent(new Event('input'));
+          search.value = '';
+        }else if(/^goto\s+/i.test(v)){
+          const id = v.split(/\s+/)[1] || '';
+          if(id){ location.hash = id.toLowerCase(); }
+          search.value = '';
+        }else{
+          // Just a quick filter highlight for projects text
+          const cards = [...document.querySelectorAll('.project')];
+          cards.forEach(c=>{
+            const hit = c.innerText.toLowerCase().includes(v.toLowerCase());
+            c.style.outline = hit && v ? '2px solid var(--brand)' : 'none';
+          });
+        }
+      }
+    });
+
+    // Year + derived KPIs
+    document.getElementById('year').textContent = new Date().getFullYear();
+    document.getElementById('kpi-projects').textContent =
+      document.querySelectorAll('.project').length.toString();
+    document.querySelectorAll('.project').length.toString();
+
+  // === FULLSCREEN TOGGLE ===
+  const fsBtn = document.getElementById('fsBtn');
+  if (fsBtn) {
+    fsBtn.addEventListener('click', () => {
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      } else {
+        document.documentElement.requestFullscreen().catch(() => {});
+      }
+    });
+  }
+</script>
+</body>
+</html>
+ 
