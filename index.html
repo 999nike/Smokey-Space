@@ -262,11 +262,16 @@ body::before {
     <div class="logo-wrapper">
   <div class="chip">
     <img class="logo" src="wizzlab_logo.png" alt="W.I.Z.Z. Core" />
+
+    <!-- translucent overlay video -->
+    <video class="chip-overlay" src="media/chipfront.mp4" autoplay muted loop playsinline></video>
+
+    <!-- trace circuit glow -->
     <svg class="trace-overlay" viewBox="0 0 300 300" preserveAspectRatio="none">
       <defs>
         <linearGradient id="traceGlow" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#0ff" stop-opacity="0.6"/>
-          <stop offset="100%" stop-color="#0ff" stop-opacity="0"/>
+          <stop offset="0%" stop-color="#0ff" stop-opacity="0.6" />
+          <stop offset="100%" stop-color="#0ff" stop-opacity="0" />
         </linearGradient>
       </defs>
       <path d="M5,5 L295,5 L295,295 L5,295 Z
