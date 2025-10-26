@@ -404,28 +404,27 @@ body::before {
   z-index: 2;
 }
 
-/* keep the logo’s glow fully visible */
+/* logo sits under the overlay */
 .logo {
   position: relative;
   width: 100%;
   z-index: 3;
-  filter: drop-shadow(0 0 25px #0ccfff); /* optional restore boost */
 }
 
-/* keep video slightly smaller so it stays inside the chip bounds */
+/* translucent overlay above logo */
 .chip-overlay {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 88%;
-  height: 88%;
+  width: 92%;          /* a little larger = restores missing right edge */
+  height: 92%;
   transform: translate(-50%, -50%);
-  border-radius: 14px;
+  border-radius: 12px;
   object-fit: cover;
   opacity: 0.4;
   mix-blend-mode: screen;
   pointer-events: none;
-  z-index: 4;
+  z-index: 5;          /* ensure overlay sits above the logo */
 }
   @keyframes fadeIn {
     from { opacity: 0; transform: scale(0.9); }
