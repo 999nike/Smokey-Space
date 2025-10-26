@@ -395,7 +395,17 @@ body::before {
     filter: drop-shadow(0 0 65px #4dfaff) drop-shadow(0 0 95px #00ccff);
     transform: scale(1.08) rotate(2deg);
   }
-
+   /* --- CHIP FRONT OVERLAY --- */
+.chip-overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  object-fit: cover;
+  opacity: 0.4;              /* translucency */
+  mix-blend-mode: screen;    /* glow blend */
+  pointer-events: none;
+  z-index: 5;                /* above logo, below trace overlay */
+}    
   @keyframes fadeIn {
     from { opacity: 0; transform: scale(0.9); }
     to { opacity: 1; transform: scale(1); }
