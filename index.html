@@ -80,18 +80,48 @@
   background: linear-gradient(180deg, #9b4dff, #ff7fff);
 }
 }
-    .app{
-      display:grid;
-      grid-template-columns: 280px 1fr;
-      min-height:100dvh;
-    }
-    /* Sidebar */
-    aside{
-      border-right: var(--border);
-      background: linear-gradient(180deg, var(--panel), var(--panel-2));
-      padding:20px 18px;
-      position:sticky; top:0; height:100dvh;
-    }
+    .app {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100dvh;
+}
+
+/* Fix right-side KPI alignment (Deploys + Local Time) */
+.kpi.ok,
+.kpi.time {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  border-radius: 14px;
+  backdrop-filter: blur(10px);
+  padding: 16px 12px;
+}
+
+.kpi.ok .label,
+.kpi.time .label {
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
+@media (max-width: 768px) {
+  .grid {
+    gap: 14px;
+  }
+  .kpi.ok,
+  .kpi.time {
+    width: 100%;
+    margin: 6px 0;
+  }
+}
+
+/* Sidebar */
+aside {
+  border-right: var(--border);
+  background: linear-gradient(180deg, var(--panel), var(--panel-2));
+  padding: 20px 18px;
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+}
     .brand{
       display:flex; align-items:center; gap:12px;
       margin-bottom:22px;
