@@ -398,33 +398,25 @@ body::before {
    /* --- CHIP FRONT OVERLAY --- */
 .chip {
   position: relative;
-  width: 220px;
+  width: 230px;        /* slightly wider so the glow wraps evenly */
   margin: 0 auto;
   border-radius: 14px;
   z-index: 2;
 }
 
-/* logo sits under the overlay */
-.logo {
-  position: relative;
-  width: 100%;
-  z-index: 3;
-}
-
-/* translucent overlay above logo */
 .chip-overlay {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 92%;          /* a little larger = restores missing right edge */
-  height: 92%;
+  width: 100%;         /* match chip width exactly */
+  height: 100%;
   transform: translate(-50%, -50%);
-  border-radius: 12px;
+  border-radius: 14px;
   object-fit: cover;
   opacity: 0.4;
   mix-blend-mode: screen;
   pointer-events: none;
-  z-index: 5;          /* ensure overlay sits above the logo */
+  z-index: 5;          /* sits cleanly above logo */
 }
   @keyframes fadeIn {
     from { opacity: 0; transform: scale(0.9); }
