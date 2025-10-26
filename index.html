@@ -719,6 +719,18 @@ setInterval(() => {
     document.getElementById('year').textContent = new Date().getFullYear();
     document.getElementById('kpi-projects').textContent =
       document.querySelectorAll('.project').length.toString();
-  </script>
+  <script>
+  // === FULLSCREEN TOGGLE ===
+  const fsBtn = document.getElementById('fsBtn');
+  if (fsBtn) {
+    fsBtn.addEventListener('click', () => {
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      } else {
+        document.documentElement.requestFullscreen().catch(() => {});
+      }
+    });
+  }
+</script>
 </body>
 </html>
