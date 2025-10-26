@@ -331,25 +331,41 @@ body::before {
   }
 
   /* --- ELECTRIC LINES --- */
-  .electric::before,
-  .electric::after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 300px;
-    height: 300px;
-    background: conic-gradient(from 0deg, transparent 0deg 20deg, rgba(0,180,255,0.35) 40deg 60deg, transparent 80deg 360deg);
-    border-radius: 50%;
-    transform: translate(-50%, -50%) rotate(0deg);
-    filter: blur(10px);
-    animation: electricFlow 4s infinite linear, electricFlicker 0.25s infinite alternate;
-    z-index: 0;
-  }
-  .electric::after {
-    transform: translate(-50%, -50%) rotate(90deg);
-    animation-delay: 1s;
-  }
+.electric::before,
+.electric::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) rotate(0deg);
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg 45deg,
+    rgba(0,255,255,0.6) 60deg 80deg,
+    transparent 100deg 360deg
+  );
+  filter: blur(8px) brightness(1.4) contrast(1.6);
+  mix-blend-mode: screen;
+  animation: electricSpin 6s linear infinite, electricPulse 0.3s ease-in-out infinite alternate;
+}
+
+.electric::after {
+  transform: translate(-50%, -50%) rotate(180deg);
+  opacity: 0.8;
+  animation-delay: 1.5s;
+}
+
+@keyframes electricSpin {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes electricPulse {
+  0%, 100% { filter: blur(8px) brightness(1.2); opacity: 0.7; }
+  50% { filter: blur(3px) brightness(2); opacity: 1; }
+}
 
   @keyframes electricFlow {
     to { transform: translate(-50%, -50%) rotate(360deg); }
