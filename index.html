@@ -63,9 +63,23 @@
         var(--bg);
       background-attachment: fixed;
       letter-spacing:.2px;
-    
-    }
 
+/* Galaxy Scrollbar Theme */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #060914;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #7f00ff, #e100ff);
+  border-radius: 8px;
+  box-shadow: 0 0 6px #9b4dff88;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #9b4dff, #ff7fff);
+}
+}
     .app{
       display:grid;
       grid-template-columns: 280px 1fr;
