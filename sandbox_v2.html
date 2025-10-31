@@ -45,16 +45,17 @@
   floor.position.y = -1.25;
   scene.add(floor);
 
-  // === Load Avatar ===
+    // === Load Avatar ===
   const loader = new GLTFLoader();
- https://smokey-space.vercel.app/sandbox_v2.html
-
+  loader.load(
+    "./media/wizzavatar.glb",
     (gltf) => {
       const model = gltf.scene;
       model.scale.set(1.4, 1.4, 1.4);
       model.position.set(0, -1.2, 0);
       scene.add(model);
 
+      // === Animate Avatar ===
       function animate() {
         requestAnimationFrame(animate);
         model.rotation.y += 0.004;
@@ -66,12 +67,14 @@
     (err) => console.error("❌ Avatar load failed:", err)
   );
 
+  // === Resize Handler ===
   window.addEventListener("resize", () => {
     camera.aspect = innerWidth / innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(innerWidth, innerHeight);
   });
 </script>
+
 
 </body>
 </html>
