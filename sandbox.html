@@ -262,6 +262,48 @@ loadLocal();
 if(!localStorage.getItem(KEY)) run();
 
 })(); </script>
+<!-- === WIZZ SANDBOX CONSOLE OVERLAY === -->
+<div id="wizz-console"></div>
+<script>
+(() => {
+  const logBox = document.createElement("div");
+  logBox.id = "wizz-console";
+  logBox.style.cssText = `
+    position:fixed; bottom:0; left:0; right:0;
+    max-height:30vh; overflow-y:auto;
+    background:rgba(11,15,23,.9);
+    color:#47b0ff; font-family:monospace;
+    font-size:13px; line-height:1.4;
+    padding:6px 10px; border-top:1px solid rgba(71,176,255,.3);
+    box-shadow:0 -4px 20px rgba(71,176,255,.15);
+    z-index:9999;
+  `;
+  document.body.appendChild(logBox);
 
+  const print = (...args) => {
+    const line = document.createElement("div");
+    line.textContent = args.map(a => 
+      (typeof a === "object" ? JSON.stringify(a) : a)
+    ).join(" ");
+    logBox.appendChild(line);
+    logBox.scrollTop = logBox.scrollHeight;
+  };
+
+  const clearConsole = () => logBox.innerHTML = "";
+
+  // hook console methods
+  const raw = { ...console };
+  ["log","warn","error"].forEach(type => {
+    console[type] = (...a) => {
+      raw[type](...a);
+      print(`[${type.toUpperCase()}]`, ...a);
+    };
+  });
+
+  // expose a manual clear
+  window.clearSandboxConsole = clearConsole;
+  print("🧠 Wizz Console ready (type clearSandboxConsole() to clear)");
+})();
+</script>
 </body>
 </html>
