@@ -10,10 +10,9 @@
   </style>
 </head>
 <body>
-<script type="module">
-  import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.module.js";
-  import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.152.2/examples/jsm/loaders/GLTFLoader.js";
-
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/loaders/GLTFLoader.js"></script>
+<script>
   const scene = new THREE.Scene();
 
   const camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
@@ -30,7 +29,6 @@
   point.position.set(2, 3, 2);
   scene.add(point);
 
-  // === Floor ===
   const floor = new THREE.Mesh(
     new THREE.CircleGeometry(3, 64),
     new THREE.MeshStandardMaterial({
@@ -45,8 +43,8 @@
   floor.position.y = -1.25;
   scene.add(floor);
 
-    // === Load Avatar ===
-  const loader = new GLTFLoader();
+  // === Load Avatar ===
+  const loader = new THREE.GLTFLoader();
   loader.load(
     "./media/wizzavatar.glb",
     (gltf) => {
@@ -55,7 +53,6 @@
       model.position.set(0, -1.2, 0);
       scene.add(model);
 
-      // === Animate Avatar ===
       function animate() {
         requestAnimationFrame(animate);
         model.rotation.y += 0.004;
@@ -67,13 +64,13 @@
     (err) => console.error("❌ Avatar load failed:", err)
   );
 
-  // === Resize Handler ===
   window.addEventListener("resize", () => {
     camera.aspect = innerWidth / innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(innerWidth, innerHeight);
   });
 </script>
+
 
 
 </body>
