@@ -52,7 +52,7 @@
 
     // === Load GLTF Model ===
     const loader = new THREE.GLTFLoader();
-    const modelPath = "./avatar.glb"; // ✅ Change to your model file path
+    const modelPath = "/media/avatar.glb"; // ✅ use your actual file in /public/media/
 
     loader.load(
       modelPath,
@@ -62,7 +62,7 @@
         model.scale.set(1.2, 1.2, 1.2);
         scene.add(model);
 
-        // Animate model rotation
+        // === Animation Loop ===
         function animate() {
           requestAnimationFrame(animate);
           model.rotation.y += 0.005;
@@ -71,14 +71,14 @@
         animate();
       },
       (xhr) => {
-        console.log(`Loading model: ${(xhr.loaded / xhr.total * 100).toFixed(0)}%`);
+        console.log(`⏳ Loading model: ${(xhr.loaded / xhr.total * 100).toFixed(0)}%`);
       },
       (error) => {
         console.error("❌ Model load error:", error);
       }
     );
 
-    // === Handle Resize ===
+    // === Handle Window Resize ===
     window.addEventListener("resize", () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
