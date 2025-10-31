@@ -13,6 +13,10 @@
 <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/loaders/GLTFLoader.js"></script>
 <script>
+  // Ensure GLTFLoader attaches correctly to THREE
+  const GLTFLoader = THREE.GLTFLoader;
+</script>
+
   const scene = new THREE.Scene();
 
   const camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
