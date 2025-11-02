@@ -2,9 +2,20 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Wizz Sandbox — Smokey’s Space</title>
-  <style>
-    :root{
+ <title>Wizz Sandbox — Smokey’s Space</title>
+
+<!-- === Remove sandbox footer overlay === -->
+<style>
+iframe, footer, .bottom-bar, .sandbox-footer, .sandbox-bottom-bar {
+  display: none !important;
+}
+body {
+  overflow: hidden;
+}
+</style>
+
+<style>
+:root{
       --bg:#0b0f17;           /* deep space */
       --panel:#121829;        /* glass panel */
       --panel-2:#0e1422;
