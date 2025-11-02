@@ -14,6 +14,7 @@ container.style.cssText = `
   width: 220px;
   height: 300px;
   z-index: 9998;
+  pointer-events: none;
 `;
 document.body.appendChild(container);
 
@@ -80,26 +81,32 @@ chatBox.innerHTML = `
   </div>`;
 document.body.appendChild(chatBox);
 
-// === Reply Bubble ===
-const reply = document.createElement("div");
-replyPanel.style.cssText = `
+// === Reply Bubble (Fixed + Safe) ===
+const replyBubble = document.createElement("div");
+replyBubble.style.cssText = `
   position: fixed;
   bottom: 120px;
-  right: 240px; /* move bubbles a little left of her */
-  width: 340px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 10px;
+  right: 260px; /* offset to the left so it doesn’t cover Wizz */
+  background: #000d;
+  border: 1px solid #47b0ff;
+  border-radius: 12px;
+  padding: 10px 14px;
+  color: #47b0ff;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  max-width: 300px;
+  box-shadow: 0 0 20px #47b0ff55;
+  opacity: 0;
+  transition: opacity 0.5s ease;
   z-index: 9999;
 `;
-document.body.appendChild(reply);
+document.body.appendChild(replyBubble);
 
 function showReply(text) {
-  reply.textContent = `💬 ${text}`;
-  reply.style.opacity = 1;
+  replyBubble.textContent = `💬 ${text}`;
+  replyBubble.style.opacity = 1;
   clearTimeout(window._replyTimer);
-  window._replyTimer = setTimeout(() => (reply.style.opacity = 0), 15000);
+  window._replyTimer = setTimeout(() => (replyBubble.style.opacity = 0), 15000);
 }
 
 // === Talk Function ===
