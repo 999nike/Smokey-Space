@@ -82,22 +82,16 @@ document.body.appendChild(chatBox);
 
 // === Reply Bubble ===
 const reply = document.createElement("div");
-reply.style.cssText = `
-  position:fixed;
-  bottom:100px;
-  right:20px;
-  background:#000d;
-  border:1px solid #47b0ff;
-  border-radius:12px;
-  padding:10px 14px;
-  color:#47b0ff;
-  font-family:Arial,sans-serif;
-  font-size:14px;
-  max-width:280px;
-  box-shadow:0 0 20px #47b0ff55;
-  opacity:0;
-  transition:opacity 0.5s ease;
-  z-index:9999;
+replyPanel.style.cssText = `
+  position: fixed;
+  bottom: 120px;
+  right: 240px; /* move bubbles a little left of her */
+  width: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  z-index: 9999;
 `;
 document.body.appendChild(reply);
 
