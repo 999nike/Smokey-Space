@@ -70,11 +70,18 @@ function playAnim(file) {
 // === Chat UI (bottom bar) ===
 const chatBox = document.createElement("div");
 chatBox.innerHTML = `
-  <div style="position:fixed;bottom:20px;left:30%;transform:translateX(-50%);
-              background:#000a;border:1px solid #47b0ff;border-radius:10px;
-              padding:10px;color:#fff;z-index:9999;">
+  <div style="position:fixed;
+              bottom:20px;
+              right:260px; /* 👈 aligns perfectly with reply bubble */
+              background:#000a;
+              border:1px solid #47b0ff;
+              border-radius:10px;
+              padding:10px;
+              color:#fff;
+              z-index:9999;">
     <input id="wizzMsg" placeholder="Talk to Wizz..."
-           style="width:220px;background:#111;color:#47b0ff;border:none;padding:4px;border-radius:6px;">
+           style="width:220px;background:#111;color:#47b0ff;border:none;
+                  padding:4px;border-radius:6px;">
     <button id="wizzSend"
             style="background:#47b0ff;color:#000;border:none;
                    padding:4px 10px;border-radius:6px;">Send</button>
