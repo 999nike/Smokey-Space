@@ -69,7 +69,7 @@ function playAnim(file) {
 // === Chat UI (bottom bar) ===
 const chatBox = document.createElement("div");
 chatBox.innerHTML = `
-  <div style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+  <div style="position:fixed;bottom:20px;left:30%;transform:translateX(-50%);
               background:#000a;border:1px solid #47b0ff;border-radius:10px;
               padding:10px;color:#fff;z-index:9999;">
     <input id="wizzMsg" placeholder="Talk to Wizz..."
