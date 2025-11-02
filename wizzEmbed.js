@@ -1,4 +1,4 @@
-// === Wizz Embed Core — Floating Mini Assistant (Idle + Talk) ===
+// === Wizz Embed Core — Floating Mini Assistant (Idle + Talk + Emotions) ===
 console.log("✨ Wizz Embed Core Booting...");
 
 let wizzScene, wizzCamera, wizzRenderer, wizzMixer, clock, currentAction;
@@ -61,6 +61,7 @@ function playAnim(file) {
       if (currentAction) currentAction.stop();
       action.reset().play();
       currentAction = action;
+      console.log("🎞️ Playing:", file);
     },
     undefined,
     (err) => console.error("⚠️ Animation Error:", err)
@@ -72,7 +73,7 @@ const chatBox = document.createElement("div");
 chatBox.innerHTML = `
   <div style="position:fixed;
               bottom:20px;
-              right:260px; /* 👈 aligns perfectly with reply bubble */
+              right:260px;
               background:#000a;
               border:1px solid #47b0ff;
               border-radius:10px;
@@ -88,12 +89,12 @@ chatBox.innerHTML = `
   </div>`;
 document.body.appendChild(chatBox);
 
-// === Reply Bubble (Fixed + Safe) ===
+// === Reply Bubble ===
 const replyBubble = document.createElement("div");
 replyBubble.style.cssText = `
   position: fixed;
   bottom: 120px;
-  right: 260px; /* offset to the left so it doesn’t cover Wizz */
+  right: 260px;
   background: #000d;
   border: 1px solid #47b0ff;
   border-radius: 12px;
@@ -116,11 +117,21 @@ function showReply(text) {
   window._replyTimer = setTimeout(() => (replyBubble.style.opacity = 0), 15000);
 }
 
-// === Talk Function ===
+// === Talk Function + Emotion Layer ===
 async function talkToWizz(msg) {
   try {
     console.log("🗣️ You:", msg);
     playAnim("wizz_talking.glb");
+
+    // 💫 Instant emotion detection (before API reply)
+    const lower = msg.toLowerCase();
+    if (lower.match(/\b(happy|smile|joy|glad|great|good|sweet|love)\b/)) playAnim("Happy.glb");
+    if (lower.match(/\b(excited|woo|yeah|pumped|energy|hype|momentum)\b/)) playAnim("Excited.glb");
+    if (lower.match(/\b(kiss|bye|goodnight|hug)\b/)) playAnim("Blow_A_Kiss.glb");
+    if (lower.match(/\b(walk|move|run|step)\b/)) playAnim("Walking.glb");
+    if (lower.match(/\b(dance|party|celebrate|groove|beat|music|song)\b/)) playAnim("Hip_Hop_Dancing.glb");
+
+    // 🤖 Send to API
     const res = await fetch(apiURL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -128,8 +139,19 @@ async function talkToWizz(msg) {
     });
     const data = await res.json();
     console.log("🤖 Wizz:", data.answer);
+
+    // 💬 Display reply
     showReply(data.answer);
-    setTimeout(() => playAnim("Idle.glb"), 2000);
+
+    // 🧠 Emotion trigger based on reply too
+    const reply = data.answer.toLowerCase();
+    if (reply.match(/\b(happy|smile|joy|glad|love|sweet)\b/)) playAnim("Happy.glb");
+    if (reply.match(/\b(excited|woo|yeah|pumped|energy|hype|momentum)\b/)) playAnim("Excited.glb");
+    if (reply.match(/\b(kiss|bye|goodnight|hug)\b/)) playAnim("Blow_A_Kiss.glb");
+    if (reply.match(/\b(dance|party|celebrate|groove|beat|music|song)\b/)) playAnim("Hip_Hop_Dancing.glb");
+
+    // ⏳ Return to idle
+    setTimeout(() => playAnim("Idle.glb"), 2500);
   } catch (err) {
     console.error("⚠️ Wizz API Error:", err);
     showReply("⚠️ Connection failed. Check API.");
@@ -137,7 +159,7 @@ async function talkToWizz(msg) {
   }
 }
 
-// === Button Events ===
+// === Button Event ===
 document.getElementById("wizzSend").onclick = () => {
   const msg = document.getElementById("wizzMsg").value.trim();
   if (!msg) return;
