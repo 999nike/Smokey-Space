@@ -785,8 +785,24 @@ setInterval(() => {
       }
     });
   }
+<!-- === Optional Mobile Console (Eruda) === -->
+<script>
+  // Activate only with ?debug or saved flag
+  if (location.search.includes("debug") || localStorage.getItem("eruda_on")) {
+    const s = document.createElement("script");
+    s.src = "https://cdn.jsdelivr.net/npm/eruda";
+    s.onload = () => {
+      eruda.init();
+      console.log("%c🧠 Eruda Console Active", "color:#47b0ff;font-weight:bold;");
+      // optional: start minimized to avoid overlapping Wizz
+      eruda.hide();
+    };
+    document.body.appendChild(s);
+  }
 </script>
-  <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r146/build/three.min.js"></script>
+
+<!-- === Core Scripts === -->
+<script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r146/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r146/examples/js/loaders/GLTFLoader.js"></script>
 <script src="wizzEmbed.js"></script>
 </body>
