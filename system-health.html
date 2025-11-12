@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>System Health — Smokey’s Space</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b0f1a; --panel:rgba(16,22,38,.55); --panel2:rgba(14,20,34,.35);
+      --text:#e7eefc; --muted:#8ea3c7; --brand:#7dd3fc; --accent:#a78bfa;
+      --ok:#34d399; --warn:#fbbf24; --bad:#fb7185; --border:1px solid rgba(255,255,255,.08);
+      --shadow:0 10px 30px rgba(0,0,0,.45); --radius:14px;
+    }
+    *{box-sizing:border-box} html,body{height:100%}
+    body{
+      margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif; color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, #1c2b4a55, transparent 60%),
+        radial-gradient(1000px 600px at 120% 10%, #3b1d6a55, transparent 60%),
+        var(--bg);
+      background-attachment:fixed;
+      letter-spacing:.2px;
+    }
+    .wrap{max-width:1100px; margin:0 auto; padding:22px}
+    .top{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap}
+    .brand{display:flex; align-items:center; gap:12px}
+    .logo{width:42px;height:42px;border-radius:12px;
+      background: radial-gradient(120% 120% at 20% 10%, #3b82f655, transparent 40%), #0ea5e9;
+      box-shadow: inset 0 0 20px #ffffff22, 0 8px 18px #0ea5e933;
+    }
+    h1{margin:0; font-size:20px; font-weight:800}
+    .btn{border:var(--border); background:linear-gradient(180deg,#ffffff0a,#0000);
+      color:var(--text); padding:10px 12px; border-radius:12px; font-weight:600; cursor:pointer;}
+    .btn.primary{background:linear-gradient(180deg,#38bdf855,#38bdf81a); border-color:#38bdf833}
+    .grid{display:grid; gap:14px; margin-top:16px; grid-template-columns:repeat(12,1fr)}
+    .card{background:linear-gradient(180deg,var(--panel),var(--panel2)); border:var(--border); border-radius:var(--radius); box-shadow:var(--shadow); padding:14px}
+    .kpis{grid-column:span 12; display:grid; gap:12px; grid-template-columns:repeat(4,1fr)}
+    .kpi{padding:14px; border-radius:12px; border:var(--border); background:linear-gradient(180deg,#ffffff08,#0000)}
+    .kpi .label{font-size:12px; color:var(--muted)}
+    .kpi .value{font-size:22px; font-weight:800; margin-top:6px}
+    .kpi.ok .value{color:var(--ok)} .kpi.warn .value{color:var(--warn)} .kpi.bad .value{color:var(--bad)}
+    .cols{grid-column:span 8}
+    .side{grid-column:span 4}
+    .row{display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap}
+    .pill{display:inline-flex; gap:8px; align-items:center; padding:6px 10px; border-radius:999px; border:var(--border); background:#ffffff10; font-size:12px}
+    .status{font-weight:800}
+    .status.ok{color:var(--ok)} .status.warn{color:var(--warn)} .status.bad{color:var(--bad)}
+    table{width:100%; border-collapse:collapse; font-size:14px}
+    th,td{padding:10px; border-bottom:1px solid rgba(255,255,255,.08); text-align:left}
+    .muted{color:var(--muted)}
+    footer{margin-top:18px; padding:14px; border-top:var(--border); color:var(--muted); font-size:12px}
+    @media (max-width:980px){ .cols,.side{grid-column:span 12} .kpis{grid-template-columns:repeat(2,1fr)} }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>System Health</h1>
+          <div class="muted">Smokey’s Space • Wizz Ops Console</div>
+        </div>
+      </div>
+      <div class="row">
+        <button id="refresh" class="btn primary">🔁 Refresh</button>
+        <a class="btn" href="index.html">🏠 Back</a>
+      </div>
+    </div>
+
+    <!-- KPIs -->
+    <section class="grid">
+      <div class="kpis card">
+        <div class="kpi" id="kpi-overall"><div class="label">Overall</div><div class="value">—</div><div class="muted">Aggregate from checks</div></div>
+        <div class="kpi" id="kpi-latency"><div class="label">Avg Latency</div><div class="value">—</div><div class="muted">ms (3 targets)</div></div>
+        <div class="kpi" id="kpi-media"><div class="label">Media</div><div class="value">—</div><div class="muted">GLB + video reachability</div></div>
+        <div class="kpi" id="kpi-api"><div class="label">API</div><div class="value">—</div><div class="muted">/api/wizz quick ping</div></div>
+      </div>
+
+      <!-- Targets -->
+      <div class="cols card">
+        <div class="row" style="margin-bottom:8px">
+          <h3 style="margin:0">Targets</h3>
+          <span class="pill"><span>Every 10s</span><span id="tick" class="muted">idle</span></span>
+        </div>
+        <table id="targets">
+          <thead><tr><th>Service</th><th>URL</th><th>Status</th><th>Latency</th><th>Last Check</th></tr></thead>
+          <tbody>
+            <tr data-key="site"><td>Smokey’s Space</td><td class="muted">https://smokey-space.vercel.app/</td><td class="status">—</td><td class="muted">—</td><td class="muted">—</td></tr>
+            <tr data-key="cloud"><td>Cloud Wizz Online</td><td class="muted">https://cloud-w-i-z-z.vercel.app/</td><td class="status">—</td><td class="muted">—</td><td class="muted">—</td></tr>
+            <tr data-key="sandbox"><td>Wizz Sandbox</td><td class="muted">https://smokey-space.vercel.app/sandbox.html</td><td class="status">—</td><td class="muted">—</td><td class="muted">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Detail -->
+      <aside class="side card">
+        <h3 style="margin:0 0 8px">Deep Checks</h3>
+        <div class="pill" id="glb">GLB: <span class="status">—</span></div>
+        <div class="pill" id="vid" style="margin-top:8px">Video: <span class="status">—</span></div>
+        <div class="pill" id="api" style="margin-top:8px">/api/wizz: <span class="status">—</span></div>
+        <div style="margin-top:12px" class="muted" id="msg">Waiting…</div>
+      </aside>
+    </section>
+
+    <footer>© <span id="y"></span> Smokey • Wizz Ops</footer>
+  </div>
+
+<script>
+(function(){
+  const Y = document.getElementById('y'); Y.textContent = new Date().getFullYear();
+
+  const TARGETS = [
+    {key:'site',   url:'https://smokey-space.vercel.app/'},
+    {key:'cloud',  url:'https://cloud-w-i-z-z.vercel.app/'},
+    {key:'sandbox',url:location.origin + '/sandbox.html'}
+  ];
+  const MEDIA = {
+    glb:  'https://smokey-space.vercel.app/media/wizzavatar.glb',
+    video:'https://smokey-space.vercel.app/media/network.mp4'
+  };
+  const API = 'https://cloud-w-i-z-z.vercel.app/api/wizz';
+
+  const $kpiOverall = document.querySelector('#kpi-overall .value');
+  const $kpiLatency = document.querySelector('#kpi-latency .value');
+  const $kpiMedia   = document.querySelector('#kpi-media .value');
+  const $kpiApi     = document.querySelector('#kpi-api .value');
+  const $msg        = document.getElementById('msg');
+
+  function setRow(key, ok, ms){
+    const row = document.querySelector(`tr[data-key="${key}"]`);
+    const st = row.querySelector('.status');
+    st.textContent = ok ? 'Online' : 'Offline';
+    st.className = 'status ' + (ok?'ok':'bad');
+    row.children[3].textContent = (ms>=0? ms+' ms' : '—');
+    row.children[4].textContent = new Date().toLocaleTimeString();
+  }
+
+  async function probe(url, method='GET', body=null){
+    const ctrl = new AbortController();
+    const t = setTimeout(()=>ctrl.abort(), 6000);
+    const t0 = performance.now();
+    try{
+      const res = await fetch(url, {method, body, signal:ctrl.signal, headers: body?{'Content-Type':'application/json'}:undefined, cache:'no-store'});
+      clearTimeout(t);
+      const ms = Math.round(performance.now() - t0);
+      return { ok: res.ok, ms };
+    }catch(e){
+      clearTimeout(t);
+      return { ok:false, ms:-1, err:e.message||String(e) };
+    }
+  }
+
+  async function runOnce(){
+    $msg.textContent = 'Checking…';
+    let okCount = 0, latSum = 0;
+
+    for (const t of TARGETS){
+      const r = await probe(t.url,'GET');
+      if (r.ok) { okCount++; latSum += Math.max(0, r.ms); }
+      setRow(t.key, r.ok, r.ms);
+    }
+
+    // media
+    const g = await probe(MEDIA.glb,'GET');
+    const v = await probe(MEDIA.video,'GET');
+    document.querySelector('#glb .status').textContent = g.ok ? 'OK' : 'Missing';
+    document.querySelector('#glb .status').className = 'status ' + (g.ok?'ok':'bad');
+    document.querySelector('#vid .status').textContent = v.ok ? 'OK' : 'Missing';
+    document.querySelector('#vid .status').className = 'status ' + (v.ok?'ok':'bad');
+    $kpiMedia.textContent = (g.ok && v.ok) ? 'OK' : (g.ok||v.ok ? 'Partial' : 'Fail');
+
+    // api ping (harmless)
+    const ping = await probe(API,'POST', JSON.stringify({question:'ping'}));
+    document.querySelector('#api .status').textContent = ping.ok ? 'OK' : 'Fail';
+    document.querySelector('#api .status').className = 'status ' + (ping.ok?'ok':'bad');
+    $kpiApi.textContent = ping.ok ? 'OK' : 'Fail';
+
+    const overallOK = okCount === TARGETS.length && g.ok && v.ok && ping.ok;
+    $kpiOverall.textContent = overallOK ? 'Healthy' : (okCount ? 'Degraded' : 'Down');
+    const avg = okCount ? Math.round(latSum / okCount) : 0;
+    $kpiLatency.textContent = okCount ? avg+' ms' : '—';
+
+    $msg.textContent = overallOK ? 'All good.' : 'Some checks failing — see table.';
+    // color the KPI cards
+    document.getElementById('kpi-overall').className = 'kpi ' + (overallOK?'ok': (okCount?'warn':'bad'));
+    document.getElementById('kpi-latency').className = 'kpi ' + (okCount?'ok':'bad');
+    document.getElementById('kpi-media').className   = 'kpi ' + ((g.ok&&v.ok)?'ok':((g.ok||v.ok)?'warn':'bad'));
+    document.getElementById('kpi-api').className     = 'kpi ' + (ping.ok?'ok':'bad');
+  }
+
+  // controls
+  document.getElementById('refresh').onclick = runOnce;
+
+  // auto tick
+  let tick = 10;
+  setInterval(()=>{
+    tick--;
+    if(tick<=0){ tick=10; runOnce(); }
+    document.getElementById('tick').textContent = tick+'s';
+  },1000);
+
+  runOnce();
+})();
+</script>
+</body>
+</html>
